@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/HomePage/HomePage';
-import TextInputWithDangerScore from "./components/Algorithm/App.tsx";
+import TextInputWithDangerScore from "./components/Algorithm/page.tsx";
 import styles from './styles/App.module.css';
 
 import projectLogo from './assets/project-logo.png';
