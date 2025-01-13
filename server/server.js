@@ -67,38 +67,74 @@ const analyzeToxicWordsWithGemini = async (sentence, toxicityScore) => {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `The following text has been flagged as toxic (toxicity level: ${toxicityScore}). 
-      Please analyze the text below, find the toxic words, and explain why each word is considered toxic.
-      Give an explanation for a teenager but do not say that it is for a teenager.
+    const prompt = `The following text has been flagged as toxic (toxicity level: ${toxicityScore}).  
+    Please analyze the text below, identify the toxic words or phrases, and explain why each is considered toxic.  
+
+    ### Requirements:  
+    1. **Return Format**:  
+    Provide the result as a JSON array with the following structure:  
+     {
+       "text": "string",        // The toxic word or phrase
+       "sentence": "string",    // Context: two words before and two words after the toxic text
+       "reason": "string"       // Explanation of why the text is considered toxic
+     }
+
+      text: The exact toxic word or phrase. Do not modify or alter the text in any way. Copy it exactly as it appears in the input.
       
-      Please return the answer as a json array that looks like this:
+      sentence: Two words before and two words after the toxic text, including the toxic text itself. Ensure the sentence remains grammatically accurate and does not add nonexistent words.
+      If the toxic text appears at the start or end of a sentence, include only the words that exist in the context.
+      Special characters and emojis are treated as individual words.
+    
+      reason: Provide a concise explanation for why the text is flagged as toxic. The explanation should be clear and easily understood by a general audience.
+    
+    2. **Context Rules**:   
+
+      Preserve all punctuation, emojis, and formatting in the sentence.
+      Ensure the sentence does not include words that occur before the beginning or after the end of the text.
+    
+    Non-Toxic Case:
+      If no toxic words or phrases are identified in the text, return the following JSON:
+
       {
-      text: string;
-      sentence: string;
-      reason: string;
+        "noToxicityReason": "string"  // A short explanation of why the text is not toxic
       }
 
-      Text is the toxic part and can be either a word or a phrase. Do not change the Text itself in any way, copy it as is.
+    3. Examples: 
+    
+    Input: Sara goes to fuckin' university. Does she like it?
 
-      Sentence is two words before and two words after the Text itself (no more than two words on each side), including the Text itself between the words.
-      If the range of two words to the left and to the right of the Text is before the beginning of a sentence or after the end of 
-      a sentence, do not add words that do not exist (crucial) or words before the sentence begins or after the sentence ends (a sentence ends after a '.'/'!'/'?' etc).
-      Similarly, it the Text is at the beginning or end of a Sentence or is a sentence in itself, do not add words to the left and right of it.
-      A special character is counted as a word, do not remove it. 
-      An emoji can be a sentence in itself but also a part of a sentence.
-
-      For example: Sara goes to fuckin' university. Does she like it?
-      text: fucking
-      sentence: goes to fuckin' university.
-      
-      If there are no toxic words/phrases, return the following json:
-
+    Output:
+    [
       {
-      noToxicityReason: string
+        "text": "fuckin'",
+        "sentence": "goes to fuckin' university.",
+        "reason": "The word 'fuckin'' is considered offensive and inappropriate in formal communication."
       }
-      
-      Text: "${sentence}"
-      `;
+    ]
+
+    Input: And since niggas need Megan help to make money, bitch, come be my ho (Ah). All of you bitches is weak, on the Bible.
+
+    Output:
+    [
+      {
+        "text": "niggas",
+        "sentence": "And since niggas need Megan",
+        "reason": "The word 'niggas' is a racial slur and is offensive in most contexts."
+      },
+      {
+        "text": "bitch",
+        "sentence": "make money, bitch, come",
+        "reason": "The word 'bitch' is derogatory and often used to demean individuals."
+      },
+      {
+        "text": "ho",
+        "sentence": "be my ho (Ah)",
+        "reason": "The word 'ho' is a slang term that is disrespectful and objectifies women."
+      }
+    ]
+
+  Text for analysis: "${sentence}"
+  `;
 
     const result = await model.generateContent(prompt);
 
@@ -115,6 +151,44 @@ const analyzeToxicWordsWithGemini = async (sentence, toxicityScore) => {
     throw new Error("Failed to analyze toxic words.");
   }
 };
+
+/* Generate Non-Toxic Text with Gemini */
+const generateNonToxicText = async (text) => {
+  console.log("Generating non-toxic version with Gemini...");
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `Rewrite the following text to make it completely non-toxic while preserving the original meaning:
+      
+      Text: "${text}"
+      
+      Return only the rewritten text, nothing else.`;
+
+    const result = await model.generateContent(prompt);
+
+    const rewrittenText = result.response.text().trim();
+
+    return rewrittenText;
+
+  } catch (error) {
+    console.error("Error generating non-toxic text:", error);
+    throw new Error("Failed to generate non-toxic text.");
+  }
+};
+
+app.post("/api/generate-non-toxic", async (req, res) => {
+  const { text } = req.body;
+
+  try {
+    const nonToxicText = await generateNonToxicText(text);
+    return res.json({ nonToxicText });
+  } catch (error) {
+    console.error("Error generating non-toxic text:", error);
+    return res.status(500).json({ message: "Server error generating non-toxic text" });
+  }
+});
 
 // Main Endpoint
 app.post("/api/toxicity-check", async (req, res) => {

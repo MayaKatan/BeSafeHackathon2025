@@ -16,6 +16,7 @@ interface ToxicityResponse {
 
 const TextInputWithDangerScore: React.FC = () => {
   const [inputText, setInputText] = useState("");
+  const [cleanText, setCleanText] = useState("");
   const [toxicityScore, setToxicityScore] = useState<number | null>(null);
   const [toxicityLabel, setToxicityLabel] = useState<string | null>(null);
   const [otherAttributes, setOtherAttributes] = useState<any>(null);
@@ -24,28 +25,29 @@ const TextInputWithDangerScore: React.FC = () => {
   const [activeWord, setActiveWord] = useState<ToxicText | null>(null);
   const [loading, setLoading] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [nonToxicText, setNonToxicText] = useState<string | null>(null);
 
   const isToxic = useMemo(() => toxicWordsList.length > 0, [toxicWordsList]);
 
-  // Highlights toxic words and sentences in the input text
-  const highlightToxicWords = () => {
-    debugger;
-    if (!inputText || toxicWordsList.length === 0) return inputText;
+  const highlightToxicWords = (text, toxicWords) => {
+    let highlightedText = "";
+    let currentIndex = 0;
 
-    let highlightedText = inputText;
-    toxicWordsList.forEach(({ text, sentence }) => {
-      console.log(text, sentence);
-      highlightedText = highlightedText.replace(sentence, (match) => {
-        let highlightedSentence = match;
-        highlightedSentence = highlightedSentence.replace(
-          text,
-          `<span style='color: red; font-weight: bold; cursor: pointer;'
-          data-text="${text}" 
-          >${text}</span>`
-        );
-        return highlightedSentence;
-      });
+    toxicWords.forEach(({ text: toxicWord }) => {
+      const wordIndex = text.indexOf(toxicWord, currentIndex);
+      if (wordIndex !== -1) {
+        // Append text before the toxic word
+        highlightedText += text.slice(currentIndex, wordIndex);
+
+        // Append the toxic word wrapped in a span
+        highlightedText += `<span style='color: red; font-weight: bold; cursor: pointer;' data-text='${toxicWord}'>${toxicWord}</span>`;
+
+        currentIndex = wordIndex + toxicWord.length;
+      }
     });
+
+    // Append the remaining text
+    highlightedText += text.slice(currentIndex);
 
     return highlightedText;
   };
@@ -65,12 +67,14 @@ const TextInputWithDangerScore: React.FC = () => {
   // Sends the input text to the backend API for toxicity analysis
   const getDangerScore = async (text: string) => {
     setLoading(true);
+    setCleanText(text);
     setToxicityScore(null);
     setToxicityLabel(null);
     setOtherAttributes(null);
     setToxicWordsList([]);
     setActiveWord(null);
     setShowAnalysis(false);
+    setNonToxicText(null);
 
     try {
       const response = await axios.post<ToxicityResponse>(
@@ -91,6 +95,26 @@ const TextInputWithDangerScore: React.FC = () => {
       setToxicityScore(1);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Function to fetch non-toxic text
+  const getNonToxicText = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/api/generate-non-toxic",
+        { text: inputText }
+      );
+      //console.log("In the front end" + response.data.nonToxicText);
+
+      const nonToxicWithBreaks = response.data.nonToxicText.replaceAll(
+        "\n",
+        "<br/>"
+      );
+
+      setNonToxicText(nonToxicWithBreaks);
+    } catch (error) {
+      console.error("Error generating non-toxic text:", error);
     }
   };
 
@@ -152,7 +176,9 @@ const TextInputWithDangerScore: React.FC = () => {
               <p>The text is not toxic.</p>
             ) : (
               <div
-                dangerouslySetInnerHTML={{ __html: highlightToxicWords() }}
+                dangerouslySetInnerHTML={{
+                  __html: highlightToxicWords(cleanText, toxicWordsList),
+                }}
                 style={{ whiteSpace: "pre-wrap" }}
                 onClick={(e) => {
                   const target = e.target as HTMLSpanElement;
@@ -178,6 +204,27 @@ const TextInputWithDangerScore: React.FC = () => {
               <p>
                 <strong>Reason:</strong> {activeWord.reason}
               </p>
+            </div>
+          )}
+
+          {/* Button to Generate Non-Toxic Text */}
+          <button style={{ marginTop: "1rem" }} onClick={getNonToxicText}>
+            Generate Non-Toxic Version
+          </button>
+
+          {/* Display Non-Toxic Text */}
+          {nonToxicText && (
+            <div
+              style={{
+                marginTop: "1rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+                background: "#fafafa",
+              }}
+            >
+              <h3>Non-Toxic Version</h3>
+
+              <p dangerouslySetInnerHTML={{ __html: nonToxicText }} />
             </div>
           )}
         </>
