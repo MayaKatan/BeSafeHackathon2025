@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/HomePage/HomePage';
+import TextInputWithDangerScore from "./components/Algorithm/App.tsx";
 import styles from './styles/App.module.css';
 
-import projectLogo from './assets/project-logo.png'
+import projectLogo from './assets/project-logo.png';
 
 function App() {
   return (
@@ -12,11 +13,13 @@ function App() {
           <img src={projectLogo} alt="Logo" className={styles.appLogo} />
           <nav className={styles.appNav}>
             <Link to="/" className={styles.appLink}>Home</Link>
+            <Link to="/algorithm" className={styles.appLink}>Algorithm</Link>
           </nav>
         </header>
         <main className={styles.main}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/algorithm" element={<TextInputWithDangerScore />} />
           </Routes>
         </main>
         <footer className={styles.footer}>
