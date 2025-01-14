@@ -68,7 +68,7 @@ const analyzeToxicWordsWithGemini = async (sentence, toxicityScore) => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `The following text has been flagged as toxic (toxicity level: ${toxicityScore}).  
-    Please analyze the text below, identify the toxic words or phrases, and explain why each is considered toxic.  
+    Please analyze the text below, identify the toxic words or phrases from the input text, and explain why each is considered toxic.  
 
     ### Requirements:  
     1. **Return Format**:  
@@ -79,18 +79,78 @@ const analyzeToxicWordsWithGemini = async (sentence, toxicityScore) => {
        "reason": "string"       // Explanation of why the text is considered toxic
      }
 
-      text: The exact toxic word or phrase. Do not modify or alter the text in any way. Copy it exactly as it appears in the input.
-      
-      sentence: Two words before and two words after the toxic text, including the toxic text itself. Ensure the sentence remains grammatically accurate and does not add nonexistent words.
-      If the toxic text appears at the start or end of a sentence, include only the words that exist in the context.
-      Special characters and emojis are treated as individual words.
-    
-      reason: Provide a concise explanation for why the text is flagged as toxic. The explanation should be clear and easily understood by a general audience.
-    
-    2. **Context Rules**:   
+      text: The exact toxic word or phrase as it appears in the input text.
 
-      Preserve all punctuation, emojis, and formatting in the sentence.
-      Ensure the sentence does not include words that occur before the beginning or after the end of the text.
+          Key Guidelines:
+          1. **Exact Match**:
+            - Copy the toxic word or phrase exactly as it is in the input text, preserving **capitalization**, punctuation, special characters, and emojis.  
+            - If the toxic word is lowercase in the input, it must remain lowercase in the output. Similarly, maintain uppercase or mixed casing.
+
+          2. **No Alteration**:
+            - Do not modify, paraphrase, or interpret the toxic word or phrase in any way.
+            - Avoid normalizing or changing the capitalization of the word.
+
+            - **Examples**:  
+              - **Input**: "I'm in my bag, bitch, huh"  
+              - **Text**: "bitch"  
+              
+              - **Input**: "Bitch, please stop."  
+              - **Text**: "Bitch"
+
+          3. **Boundaries**:
+            - Ensure the toxic word or phrase is isolated correctly based on the input.
+            - If the toxic text is part of a longer phrase, include only the identified toxic portion, not the surrounding words.
+
+          4. **Special Characters and Emojis**:
+            - Treat special characters, punctuation marks, and emojis as integral parts of the toxic text.
+            - Include them exactly as they appear in the input.
+
+          5. **Repetition**:
+            - If the same toxic word or phrase occurs multiple times in different parts of the input, list each occurrence as a separate entry.
+
+      sentence: Provide the exact context of the toxic text by including up to **two words before** and **two words after** the toxic text, along with the toxic text itself.
+          
+          Key Guidelines:
+          1. **Exact Context**:
+            - Ensure the "sentence" includes the toxic text **exactly as it appears** in the input, preserving capitalization, punctuation, and special characters.
+            - Do not add or infer words that do not exist in the original text.
+
+          2. **Edge Cases**:
+            - If the toxic text is located at the **start** or **end** of a sentence, include only the words that exist in the input text.
+            - If the toxic text is a **standalone sentence** (e.g., an emoji or single word), return it as the "sentence" without additional words.
+
+          3. **Special Characters and Emojis**:
+            - Treat special characters, punctuation, and emojis as individual words.
+            - Include them in the "sentence" if they appear within the two-word context range.
+
+          4. **Grammatical Accuracy**:
+            - Ensure that the "sentence" remains grammatically accurate based on the input text.
+            - Do not alter the structure of the sentence, even if the toxic text disrupts its grammar.
+
+          5. **Multiple Occurrences**:
+            - If the toxic text appears multiple times in the input text, create a separate entry for each occurrence, including its unique "sentence".
+    
+      reason: Provide a concise explanation for why the text is flagged as toxic.
+
+          Key Guidelines:
+          1. **Clarity**:
+            - Use simple and straightforward language that can be easily understood by a teenager.
+            - Avoid technical jargon or overly complex explanations.
+
+          2. **Context Relevance**:
+            - Clearly state why the specific word or phrase is considered toxic in the context of the input text.
+            - Relate the explanation to the tone, meaning, or potential impact of the toxic text.
+
+          3. **Specificity**:
+            - Focus on the identified toxic word or phrase and avoid generalized statements about the entire text.
+
+          4. **Conciseness**:
+            - Keep the explanation brief, ideally two or three sentences.
+            - Avoid repeating information or using unnecessary filler.
+
+          5. **Audience Sensitivity**:
+            - Ensure the explanation is neutral and does not perpetuate or amplify the toxic nature of the word or phrase.
+            - Maintain a professional tone.
     
     Non-Toxic Case:
       If no toxic words or phrases are identified in the text, return the following JSON:
