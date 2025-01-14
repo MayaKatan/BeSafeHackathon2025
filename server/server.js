@@ -108,6 +108,14 @@ const analyzeToxicWordsWithGemini = async (sentence, toxicityScore) => {
           5. **Repetition**:
             - If the same toxic word or phrase occurs multiple times in different parts of the input, list each occurrence as a separate entry.
 
+          Note about **Toxicity Identification**:
+            Toxicity is not limited to explicit offensive language. Include **subtle toxic behaviors**, such as:
+            - **Sarcasm**: Comments that convey annoyance, mockery, or disdain.
+            - **Passive-aggressiveness**: Indirect criticism or hostile undertones.
+            - **Dismissiveness**: Belittling or ignoring others' contributions.
+            - **Condescension**: Comments that undermine others' intelligence or efforts.
+            - **Hostility**: Any words or phrases that create tension or conflict.
+
       sentence: Provide the exact context of the toxic text by including up to **two words before** and **two words after** the toxic text, along with the toxic text itself.
           
           Key Guidelines:
