@@ -4,7 +4,7 @@
 }
 
 .appHeader {
-  background-color: #53474F;
+  background-color: #b5d2ea;
   padding: 5px 30px 5px 30px;
   color: white;
   display: flex;
@@ -33,16 +33,16 @@
 
 .main {
   padding: 20px;
-  background-color: #FFDCE8;
+  background-color: white;
   height: 100vh;
 }
 
 .footer {
-  padding: 10px;
-  background-color: #53474F;
+  padding: 1px;
+  background-color: #94c4f1;
   color: white;
   position: fixed;
-  width: 100%;
+  width: 21%;
   bottom: 0;
   text-align: center;
 }

@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
+import './styles/ToxicityChecker.css';
 
 interface ToxicText {
-  text: string; // The toxic text inside the whole input text
-  sentence: string; // The sentence in the whole input text that contains text
-  reason: string; // The reason for toxicity in text
+  text: string;
+  sentence: string;
+  reason: string;
 }
 
 interface ToxicityResponse {
@@ -20,7 +21,6 @@ const TextInputWithDangerScore: React.FC = () => {
   const [toxicityScore, setToxicityScore] = useState<number | null>(null);
   const [toxicityLabel, setToxicityLabel] = useState<string | null>(null);
   const [otherAttributes, setOtherAttributes] = useState<any>(null);
-
   const [toxicWordsList, setToxicWordsList] = useState<ToxicText[]>([]);
   const [activeWord, setActiveWord] = useState<ToxicText | null>(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,12 @@ const TextInputWithDangerScore: React.FC = () => {
 
   const isToxic = useMemo(() => toxicWordsList.length > 0, [toxicWordsList]);
 
+  const getScoreLevel = (score: number) => {
+    if (score <= 0.3) return "high";
+    if (score <= 0.7) return "medium";
+    return "low";
+  };
+
   const highlightToxicWords = (text, toxicWords) => {
     let highlightedText = "";
     let currentIndex = 0;
@@ -36,23 +42,16 @@ const TextInputWithDangerScore: React.FC = () => {
     toxicWords.forEach(({ text: toxicWord }) => {
       const wordIndex = text.indexOf(toxicWord, currentIndex);
       if (wordIndex !== -1) {
-        // Append text before the toxic word
         highlightedText += text.slice(currentIndex, wordIndex);
-
-        // Append the toxic word wrapped in a span
-        highlightedText += `<span style='color: red; font-weight: bold; cursor: pointer;' data-text='${toxicWord}'>${toxicWord}</span>`;
-
+        highlightedText += `<span class="toxic-word" data-text='${toxicWord}'>${toxicWord}</span>`;
         currentIndex = wordIndex + toxicWord.length;
       }
     });
 
-    // Append the remaining text
     highlightedText += text.slice(currentIndex);
-
     return highlightedText;
   };
 
-  // Handle clicks on toxic words
   const handleWordClick = (word: string) => {
     const toxicWord = toxicWordsList.find(
       ({ text }) => text.toLowerCase() === word.toLowerCase()
@@ -64,7 +63,6 @@ const TextInputWithDangerScore: React.FC = () => {
     }
   };
 
-  // Sends the input text to the backend API for toxicity analysis
   const getDangerScore = async (text: string) => {
     setLoading(true);
     setCleanText(text);
@@ -82,8 +80,7 @@ const TextInputWithDangerScore: React.FC = () => {
         { text: text.trim() }
       );
 
-      const { toxicityScore, toxicityLabel, otherAttributes, toxicText } =
-        response.data;
+      const { toxicityScore, toxicityLabel, otherAttributes, toxicText } = response.data;
 
       setToxicityScore(toxicityScore);
       setToxicityLabel(toxicityLabel);
@@ -98,20 +95,14 @@ const TextInputWithDangerScore: React.FC = () => {
     }
   };
 
-  // Function to fetch non-toxic text
   const getNonToxicText = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5001/api/generate-non-toxic",
         { text: inputText }
       );
-      //console.log("In the front end" + response.data.nonToxicText);
 
-      const nonToxicWithBreaks = response.data.nonToxicText.replaceAll(
-        "\n",
-        "<br/>"
-      );
-
+      const nonToxicWithBreaks = response.data.nonToxicText.replaceAll("\n", "<br/>");
       setNonToxicText(nonToxicWithBreaks);
     } catch (error) {
       console.error("Error generating non-toxic text:", error);
@@ -119,70 +110,62 @@ const TextInputWithDangerScore: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, paddingBottom: "5rem" }}>
-      <h2>How toxic is your text?</h2>
+    <div className="toxicity-checker">
+      <h2>Internet Safety Checker</h2>
 
       <textarea
+        className="toxicity-input"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
-        rows={4}
-        cols={50}
-        placeholder="Enter text to analyze"
+        placeholder="Enter your conversation here to check if it's safe..."
       />
-      <br />
 
       <button
-        type="submit"
+        className={`button ${loading ? 'loading' : ''}`}
         onClick={() => getDangerScore(inputText)}
         disabled={loading}
       >
-        {loading ? "Analyzing..." : "Check Toxicity Score"}
+        {loading ? "Analyzing..." : "Check Safety Score"}
       </button>
 
       {showAnalysis && (
-        <>
-          <div style={{ marginTop: "1rem" }}>
-            <h3>
-              Toxicity Score:{" "}
-              {toxicityScore !== null ? toxicityScore.toFixed(2) : "N/A"}
+        <div className="analysis-section">
+          <div className="score-display">
+            <h3 data-score={toxicityScore ? getScoreLevel(toxicityScore) : undefined}>
+              Safety Score: {toxicityScore !== null ? `${(100 - toxicityScore * 100).toFixed(0)}%` : "N/A"}
             </h3>
-            <h3>Toxicity Label: {toxicityLabel || "N/A"}</h3>
+            <h3>Safety Level: {toxicityLabel || "N/A"}</h3>
           </div>
 
-          <div>
-            <h3>Other Attributes:</h3>
-            {toxicityLabel === "Non-toxic" ||
-            !otherAttributes ||
-            Object.keys(otherAttributes).length === 0 ? (
-              <p>No significant attributes detected.</p>
-            ) : (
-              Object.keys(otherAttributes)
+          {otherAttributes && Object.keys(otherAttributes).length > 0 && (
+            <div className="score-display">
+              <h3>Detected Issues:</h3>
+              {Object.keys(otherAttributes)
                 .filter((key) => {
                   const score = otherAttributes[key]?.summaryScore?.value;
                   return score !== undefined && score > 0.55;
                 })
                 .map((key) => (
                   <p key={key}>
-                    <strong>{key}</strong>:{" "}
-                    {otherAttributes[key]?.summaryScore?.value.toFixed(2)}
+                    <strong>{key}</strong>:{' '}
+                    {(otherAttributes[key]?.summaryScore?.value * 100).toFixed(0)}%
                   </p>
-                ))
-            )}
-          </div>
+                ))}
+            </div>
+          )}
 
-          <div style={{ marginTop: "1rem" }}>
-            <h3>Toxicity Analysis</h3>
+          <div className="score-display">
+            <h3>Analysis Results</h3>
             {toxicityScore !== null && toxicityScore <= 0.55 ? (
-              <p>The text is not toxic.</p>
+              <p>This conversation appears to be safe! 👍</p>
             ) : (
               <div
                 dangerouslySetInnerHTML={{
                   __html: highlightToxicWords(cleanText, toxicWordsList),
                 }}
-                style={{ whiteSpace: "pre-wrap" }}
                 onClick={(e) => {
                   const target = e.target as HTMLSpanElement;
-                  if (target.tagName === "SPAN") {
+                  if (target.classList.contains('toxic-word')) {
                     const word = target.getAttribute("data-text") || "";
                     handleWordClick(word);
                   }
@@ -192,42 +175,27 @@ const TextInputWithDangerScore: React.FC = () => {
           </div>
 
           {activeWord && (
-            <div
-              style={{
-                marginTop: "1rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
-                background: "#fafafa",
-              }}
-            >
-              <h4>Why is {activeWord.text} toxic?</h4>
-              <p>
-                <strong>Reason:</strong> {activeWord.reason}
-              </p>
+            <div className="toxic-word-details">
+              <h4>Why is "{activeWord.text}" concerning?</h4>
+              <p>{activeWord.reason}</p>
             </div>
           )}
 
-          {/* Button to Generate Non-Toxic Text */}
-          <button style={{ marginTop: "1rem" }} onClick={getNonToxicText}>
-            Generate Non-Toxic Version
-          </button>
+          {isToxic && (
+            <>
+              <button className="button" onClick={getNonToxicText}>
+                Get Friendly Version
+              </button>
 
-          {/* Display Non-Toxic Text */}
-          {nonToxicText && (
-            <div
-              style={{
-                marginTop: "1rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
-                background: "#fafafa",
-              }}
-            >
-              <h3>Non-Toxic Version</h3>
-
-              <p dangerouslySetInnerHTML={{ __html: nonToxicText }} />
-            </div>
+              {nonToxicText && (
+                <div className="non-toxic-version">
+                  <h3>Friendly Version</h3>
+                  <p dangerouslySetInnerHTML={{ __html: nonToxicText }} />
+                </div>
+              )}
+            </>
           )}
-        </>
+        </div>
       )}
     </div>
   );
