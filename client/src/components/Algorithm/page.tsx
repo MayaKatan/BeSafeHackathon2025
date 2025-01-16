@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
-import './styles/ToxicityChecker.css';
+import "./styles/ToxicityChecker.css";
 
 interface ToxicText {
   text: string;
@@ -42,16 +42,19 @@ const TextInputWithDangerScore: React.FC = () => {
     toxicWords.forEach(({ text: toxicWord }) => {
       const wordIndex = text.indexOf(toxicWord, currentIndex);
       if (wordIndex !== -1) {
+        // Append text before the toxic word
         highlightedText += text.slice(currentIndex, wordIndex);
+        // Append the toxic word wrapped in a span
         highlightedText += `<span class="toxic-word" data-text='${toxicWord}'>${toxicWord}</span>`;
         currentIndex = wordIndex + toxicWord.length;
       }
     });
-
+    // Append the remaining text
     highlightedText += text.slice(currentIndex);
     return highlightedText;
   };
 
+  // Handle clicks on toxic words
   const handleWordClick = (word: string) => {
     const toxicWord = toxicWordsList.find(
       ({ text }) => text.toLowerCase() === word.toLowerCase()
@@ -63,6 +66,7 @@ const TextInputWithDangerScore: React.FC = () => {
     }
   };
 
+  // Sends the input text to the backend API for toxicity analysis
   const getDangerScore = async (text: string) => {
     setLoading(true);
     setCleanText(text);
@@ -80,7 +84,8 @@ const TextInputWithDangerScore: React.FC = () => {
         { text: text.trim() }
       );
 
-      const { toxicityScore, toxicityLabel, otherAttributes, toxicText } = response.data;
+      const { toxicityScore, toxicityLabel, otherAttributes, toxicText } =
+        response.data;
 
       setToxicityScore(toxicityScore);
       setToxicityLabel(toxicityLabel);
@@ -95,6 +100,7 @@ const TextInputWithDangerScore: React.FC = () => {
     }
   };
 
+  // Function to fetch non-toxic text
   const getNonToxicText = async () => {
     try {
       const response = await axios.post(
@@ -102,7 +108,10 @@ const TextInputWithDangerScore: React.FC = () => {
         { text: inputText }
       );
 
-      const nonToxicWithBreaks = response.data.nonToxicText.replaceAll("\n", "<br/>");
+      const nonToxicWithBreaks = response.data.nonToxicText.replaceAll(
+        "\n",
+        "<br/>"
+      );
       setNonToxicText(nonToxicWithBreaks);
     } catch (error) {
       console.error("Error generating non-toxic text:", error);
@@ -121,7 +130,7 @@ const TextInputWithDangerScore: React.FC = () => {
       />
 
       <button
-        className={`button ${loading ? 'loading' : ''}`}
+        className={`button ${loading ? "loading" : ""}`}
         onClick={() => getDangerScore(inputText)}
         disabled={loading}
       >
@@ -131,8 +140,15 @@ const TextInputWithDangerScore: React.FC = () => {
       {showAnalysis && (
         <div className="analysis-section">
           <div className="score-display">
-            <h3 data-score={toxicityScore ? getScoreLevel(toxicityScore) : undefined}>
-              Safety Score: {toxicityScore !== null ? `${(100 - toxicityScore * 100).toFixed(0)}%` : "N/A"}
+            <h3
+              data-score={
+                toxicityScore ? getScoreLevel(toxicityScore) : undefined
+              }
+            >
+              Safety Score:{" "}
+              {toxicityScore !== null
+                ? `${(100 - toxicityScore * 100).toFixed(0)}%`
+                : "N/A"}
             </h3>
             <h3>Safety Level: {toxicityLabel || "N/A"}</h3>
           </div>
@@ -147,8 +163,11 @@ const TextInputWithDangerScore: React.FC = () => {
                 })
                 .map((key) => (
                   <p key={key}>
-                    <strong>{key}</strong>:{' '}
-                    {(otherAttributes[key]?.summaryScore?.value * 100).toFixed(0)}%
+                    <strong>{key}</strong>:{" "}
+                    {(otherAttributes[key]?.summaryScore?.value * 100).toFixed(
+                      0
+                    )}
+                    %
                   </p>
                 ))}
             </div>
@@ -165,7 +184,7 @@ const TextInputWithDangerScore: React.FC = () => {
                 }}
                 onClick={(e) => {
                   const target = e.target as HTMLSpanElement;
-                  if (target.classList.contains('toxic-word')) {
+                  if (target.classList.contains("toxic-word")) {
                     const word = target.getAttribute("data-text") || "";
                     handleWordClick(word);
                   }

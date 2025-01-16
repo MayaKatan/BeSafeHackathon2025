@@ -258,7 +258,64 @@ app.post("/api/generate-non-toxic", async (req, res) => {
   }
 });
 
-// Main Endpoint
+// Gemini response to general query
+const getGeminiResponse = async (thread) => {
+  console.log("Sending text to Gemini for a response...");
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `
+        A teenager has reached out with a question about online safety. Below is the conversation thread so far, including the teenager's latest question. 
+
+        Please provide a warm, supportive, and helpful response in simple and clear language that is easy for a teenager to understand. 
+        Focus on addressing the question with practical advice while encouraging safe and responsible behavior. 
+        If necessary, suggest involving a trusted adult, professional, or appropriate authority for further guidance. 
+        Avoid providing any information that could be sensitive, misleading, or unauthorized.
+
+        Conversation Thread:
+        "${thread}"
+
+        Instructions for Your Response:
+        1. **Language Consistency:** Your response must be in the same language as the question itself.
+        2. **Inclusivity:** Do not assume the user’s gender. Write in a way that is neutral and addresses all genders.
+        3. **Handling Missing Information:** If some information is unavailable (e.g., the user's hometown), acknowledge this gracefully and provide general advice without making assumptions.
+        4. **Tone:** Ensure the response is empathetic, encouraging, and feels human-like.
+        5. **Clarity:** Use simple, age-appropriate language suitable for teenagers.
+        6. **Context:** Only use the information provided in the conversation thread. Do not infer or assume additional context.
+        `;
+
+    const result = await model.generateContent(prompt);
+
+    const geminiResponse = result.response.text().trim();
+
+    return geminiResponse;
+  } catch (error) {
+    console.error("Error getting response from Gemini:", error);
+    throw new Error("Failed to get response from Gemini.");
+  }
+};
+
+/* Endpoint for General Gemini Response */
+app.post('/api/gemini-response', async (req, res) => {
+
+  const { thread } = req.body;
+
+  if (!thread || typeof thread !== 'string') {
+    return res.status(400).json({ message: 'Invalid input text. Please provide a non-empty string.' });
+  }
+
+  try {
+    const geminiResponse = await getGeminiResponse(thread);
+    return res.json({ geminiResponse });
+  } catch (error) {
+    console.error("Error getting Gemini response:", error);
+    return res.status(500).json({ message: 'Server error getting Gemini response' });
+  }
+});
+
+// Toxicity check
 app.post("/api/toxicity-check", async (req, res) => {
   const { text } = req.body;
 

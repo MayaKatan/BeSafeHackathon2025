@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/HomePage/HomePage';
 import TextInputWithDangerScore from "./components/Algorithm/page.tsx";
+import Bot from './components/Chatbot/page.tsx';
 import styles from './styles/App.module.css';
 
 import projectLogo from './assets/project-logo.png';
@@ -14,12 +15,14 @@ function App() {
           <nav className={styles.appNav}>
             <Link to="/" className={styles.appLink}>Home</Link>
             <Link to="/algorithm" className={styles.appLink}>Algorithm</Link>
+            <Link to="/chatbot" className={styles.appLink}>Chatbot</Link>
           </nav>
         </header>
         <main className={styles.main}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/algorithm" element={<TextInputWithDangerScore />} />
+            <Route path="/chatbot" element={<Bot />} />
           </Routes>
         </main>
         <footer className={styles.footer}>
