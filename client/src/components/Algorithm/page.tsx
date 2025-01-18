@@ -13,11 +13,12 @@ interface ToxicityResponse {
   toxicityLabel: string;
   otherAttributes?: any;
   toxicText: ToxicText[];
+  englishText: string;
 }
 
 const TextInputWithDangerScore: React.FC = () => {
   const [inputText, setInputText] = useState("");
-  const [cleanText, setCleanText] = useState("");
+  const [englishText, setEnglishText] = useState("");
   const [toxicityScore, setToxicityScore] = useState<number | null>(null);
   const [toxicityLabel, setToxicityLabel] = useState<string | null>(null);
   const [otherAttributes, setOtherAttributes] = useState<any>(null);
@@ -69,7 +70,6 @@ const TextInputWithDangerScore: React.FC = () => {
   // Sends the input text to the backend API for toxicity analysis
   const getDangerScore = async (text: string) => {
     setLoading(true);
-    setCleanText(text);
     setToxicityScore(null);
     setToxicityLabel(null);
     setOtherAttributes(null);
@@ -84,13 +84,14 @@ const TextInputWithDangerScore: React.FC = () => {
         { text: text.trim() }
       );
 
-      const { toxicityScore, toxicityLabel, otherAttributes, toxicText } =
+      const { toxicityScore, toxicityLabel, otherAttributes, toxicText, englishText } =
         response.data;
 
       setToxicityScore(toxicityScore);
       setToxicityLabel(toxicityLabel);
       setOtherAttributes(otherAttributes);
       setToxicWordsList(toxicText || []);
+      setEnglishText(englishText)
       setShowAnalysis(true);
     } catch (err) {
       console.error("Error with toxicity analysis:", err);
@@ -121,14 +122,14 @@ const TextInputWithDangerScore: React.FC = () => {
   return (
     <div className="toxicity-checker">
       <h2>Internet Safety Checker</h2>
-
+      <div className="center-container">
       <textarea
         className="toxicity-input"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         placeholder="Enter your conversation here to check if it's safe..."
       />
-
+      </div>
       <button
         className={`button ${loading ? "loading" : ""}`}
         onClick={() => getDangerScore(inputText)}
@@ -180,7 +181,7 @@ const TextInputWithDangerScore: React.FC = () => {
             ) : (
               <div
                 dangerouslySetInnerHTML={{
-                  __html: highlightToxicWords(cleanText, toxicWordsList),
+                  __html: highlightToxicWords(englishText, toxicWordsList),
                 }}
                 onClick={(e) => {
                   const target = e.target as HTMLSpanElement;

@@ -3,12 +3,64 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { TranslationServiceClient } from '@google-cloud/translate';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_URL }));
+
+const translateClient = new TranslationServiceClient();
+
+/* Function to detect language and translate Hebrew to English */
+const translateToEnglish = async (text) => {
+    try {
+      const [detection] = await translateClient.detectLanguage({ parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`, content: text });
+      const detectedLanguage = detection.languages[0].languageCode;
+  
+      // If text is in Hebrew, translate to English
+      if (detectedLanguage === 'he' || detectedLanguage === 'iw') {
+        const [translation] = await translateClient.translateText({
+          parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`,
+          contents: [text],
+          targetLanguageCode: 'en',
+        });
+      
+  
+        return translation.translations[0].translatedText;
+  
+      }
+  
+      // If text is already in English, return it as-is
+      return text;
+    } catch (error) {
+      console.error('Error detecting or translating text:', error);
+      throw new Error('Failed to detect or translate text.');
+    }
+  };
+  
+  /* Function to translate text back to Hebrew */
+  const translateToHebrew = async (text) => {
+    try {
+      const [translation] = await translateClient.translateText({
+        parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`,
+        contents: [text],
+        targetLanguageCode: 'he',
+      });
+  
+      return translation.translations[0].translatedText;
+    } catch (error) {
+      console.error('Error translating text back to Hebrew:', error);
+      throw new Error('Failed to translate text back to Hebrew.');
+    }
+  };
+  
+  // Add a helper function to detect if the input text is in Hebrew:
+  const isHebrew = (text) => {
+    // Simple regex to detect Hebrew characters
+    return /[\u0590-\u05FF]/.test(text);
+  };
 
 /* 1) Analyze text with Perspective API */
 const analyzeTextWithPerspective = async (text) => {
@@ -247,10 +299,19 @@ const generateNonToxicText = async (text) => {
 };
 
 app.post("/api/generate-non-toxic", async (req, res) => {
-  const { text } = req.body;
+  let { text } = req.body;
 
   try {
-    const nonToxicText = await generateNonToxicText(text);
+    let translatedText = text
+    if (isHebrew(text)) {
+      translatedText = await translateToEnglish(text);  // Translate Hebrew to English
+    }
+    
+    let nonToxicText = await generateNonToxicText(translatedText);
+
+    if (isHebrew(text)) {
+      nonToxicText = await translateToHebrew(nonToxicText);
+    }
     return res.json({ nonToxicText });
   } catch (error) {
     console.error("Error generating non-toxic text:", error);
@@ -317,9 +378,13 @@ app.post('/api/gemini-response', async (req, res) => {
 
 // Toxicity check
 app.post("/api/toxicity-check", async (req, res) => {
-  const { text } = req.body;
+  let { text } = req.body;
+
 
   try {
+    if (isHebrew(text)) {
+      text = await translateToEnglish(text);
+    }
     const perspectiveResult = await analyzeTextWithPerspective(text);
     if (!perspectiveResult) {
       return res.status(400).json({ message: "Perspective analysis failed." });
@@ -330,12 +395,13 @@ app.post("/api/toxicity-check", async (req, res) => {
         toxicityScore: parseFloat(perspectiveResult.toxicityScore.toFixed(2)),
         toxicityLabel: perspectiveResult.toxicityLabel,
         otherAttributes: perspectiveResult.otherAttributes,
-        toxicText: []
+        toxicText: [],
+        englishText: text
       });
     }
 
     // If toxic -> Gemini
-    const geminiFullJson = await analyzeToxicWordsWithGemini(
+    let geminiFullJson = await analyzeToxicWordsWithGemini(
       text,
       perspectiveResult.toxicityScore
     );
@@ -345,7 +411,9 @@ app.post("/api/toxicity-check", async (req, res) => {
         toxicityScore: parseFloat(perspectiveResult.toxicityScore.toFixed(2)),
         toxicityLabel: "Non-toxic (Gemini)",
         otherAttributes: perspectiveResult.otherAttributes,
-        toxicText: []
+        toxicText: [],
+        englishText: text
+
       });
     }
 
@@ -353,7 +421,8 @@ app.post("/api/toxicity-check", async (req, res) => {
       toxicityScore: parseFloat(perspectiveResult.toxicityScore.toFixed(2)),
       toxicityLabel: perspectiveResult.toxicityLabel,
       otherAttributes: perspectiveResult.otherAttributes,
-      toxicText: geminiFullJson
+      toxicText: geminiFullJson,
+      englishText: text
     })
   } catch (error) {
     console.error("Error processing text:", error);

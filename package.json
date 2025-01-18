@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@google-cloud/translate": "^8.5.0",
     "axios": "^1.7.9",
     "child_process": "^1.0.2",
     "express": "^4.21.2",
