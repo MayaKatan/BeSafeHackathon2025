@@ -8,3 +8,13 @@
   margin-bottom: 20px;
   color: #53474F;
 }
+
+.appLink {
+  margin-right: 4rem;
+  /* Adds space to the right of each link */
+}
+
+.logoutButton {
+  margin-left: 1rem;
+  /* Adds extra space before the logout button */
+}
