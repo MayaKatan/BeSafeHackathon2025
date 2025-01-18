@@ -4,6 +4,7 @@
     "axios": "^1.7.9",
     "child_process": "^1.0.2",
     "express": "^4.21.2",
+    "framer-motion": "^11.18.1",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

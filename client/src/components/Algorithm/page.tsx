@@ -84,14 +84,21 @@ const TextInputWithDangerScore: React.FC = () => {
         { text: text.trim() }
       );
 
-      const { toxicityScore, toxicityLabel, otherAttributes, toxicText, englishText } =
-        response.data;
+      const {
+        toxicityScore,
+        toxicityLabel,
+        otherAttributes,
+        toxicText,
+        englishText,
+      } = response.data;
+
+      console.log("the english text is", englishText);
 
       setToxicityScore(toxicityScore);
       setToxicityLabel(toxicityLabel);
       setOtherAttributes(otherAttributes);
       setToxicWordsList(toxicText || []);
-      setEnglishText(englishText)
+      setEnglishText(englishText);
       setShowAnalysis(true);
     } catch (err) {
       console.error("Error with toxicity analysis:", err);
@@ -123,12 +130,12 @@ const TextInputWithDangerScore: React.FC = () => {
     <div className="toxicity-checker">
       <h2>Internet Safety Checker</h2>
       <div className="center-container">
-      <textarea
-        className="toxicity-input"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        placeholder="Enter your conversation here to check if it's safe..."
-      />
+        <textarea
+          className="toxicity-input"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Enter your conversation here to check if it's safe..."
+        />
       </div>
       <button
         className={`button ${loading ? "loading" : ""}`}
