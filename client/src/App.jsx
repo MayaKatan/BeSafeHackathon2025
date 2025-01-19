@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from './lib/supabaseClient';
 import TextInputWithDangerScore from "./components/Algorithm/page.tsx";
 import Bot from './components/Chatbot/page.tsx';
@@ -8,7 +8,6 @@ import Signup from './pages/signup/page.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import styles from './styles/App.module.css';
 import projectLogo from './assets/project-logo.png';
-import { motion } from 'framer-motion';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -108,32 +107,22 @@ function App() {
             />
           </Routes>
         </main>
-        <motion.footer
+        <footer
           className={styles.footer}
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
-            duration: 1
-          }}
+
         >
           <div className={styles.footerContent}>
             <p>&copy; Safety Checker App</p>
             <div>
-              <motion.button
+              <button
                 onClick={() => window.open('/BeSafe Hackathon 2025/MyProject.html', '_blank', 'noopener,noreferrer')}
                 className={styles.portalButton}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 Learning Portal
-              </motion.button>
+              </button>
             </div>
           </div>
-        </motion.footer>
+        </footer>
       </div>
     </BrowserRouter>
   );

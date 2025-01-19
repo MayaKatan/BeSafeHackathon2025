@@ -11,6 +11,7 @@ const Bot: React.FC = () => {
   const [customQuestion, setCustomQuestion] = useState<string>("");
   const [isOther, setIsOther] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // Used to create a reference to a div element at the bottom of the chat. This reference is stored in the messagesEndRef variable.
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const currentQuestion = flowData.find(
@@ -108,10 +109,12 @@ const Bot: React.FC = () => {
     setMessages((prev) => [...prev, { sender: "user", text: customQuestion }]);
     setIsLoading(true);
 
+    // Constructs a formatted conversation history (a "message thread")
     const messageThread = messages
       .map((msg) => `${msg.sender === "bot" ? "Bot" : "User"}: ${msg.text}`)
       .join("\n");
 
+    //Combines the array of formatted strings into a single string, separating each line with a newline
     const thread = `${messageThread}\nUser: ${customQuestion}`;
 
     console.log(messageThread);
@@ -119,7 +122,7 @@ const Bot: React.FC = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/gemini-response",
+        `${import.meta.env.VITE_SERVER_API_URL}/api/gemini-response`,
         { thread },
         { headers: { "Content-Type": "application/json" } }
       );

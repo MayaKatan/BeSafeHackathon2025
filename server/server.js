@@ -15,52 +15,52 @@ const translateClient = new TranslationServiceClient();
 
 /* Function to detect language and translate Hebrew to English */
 const translateToEnglish = async (text) => {
-    try {
-      const [detection] = await translateClient.detectLanguage({ parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`, content: text });
-      const detectedLanguage = detection.languages[0].languageCode;
-  
-      // If text is in Hebrew, translate to English
-      if (detectedLanguage === 'he' || detectedLanguage === 'iw') {
-        const [translation] = await translateClient.translateText({
-          parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`,
-          contents: [text],
-          targetLanguageCode: 'en',
-        });
-      
-  
-        return translation.translations[0].translatedText;
-  
-      }
-  
-      // If text is already in English, return it as-is
-      return text;
-    } catch (error) {
-      console.error('Error detecting or translating text:', error);
-      throw new Error('Failed to detect or translate text.');
-    }
-  };
-  
-  /* Function to translate text back to Hebrew */
-  const translateToHebrew = async (text) => {
-    try {
+  try {
+    const [detection] = await translateClient.detectLanguage({ parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`, content: text });
+    const detectedLanguage = detection.languages[0].languageCode;
+
+    // If text is in Hebrew, translate to English
+    if (detectedLanguage === 'he' || detectedLanguage === 'iw') {
       const [translation] = await translateClient.translateText({
         parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`,
         contents: [text],
-        targetLanguageCode: 'he',
+        targetLanguageCode: 'en',
       });
-  
+
+
       return translation.translations[0].translatedText;
-    } catch (error) {
-      console.error('Error translating text back to Hebrew:', error);
-      throw new Error('Failed to translate text back to Hebrew.');
+
     }
-  };
-  
-  // Add a helper function to detect if the input text is in Hebrew:
-  const isHebrew = (text) => {
-    // Simple regex to detect Hebrew characters
-    return /[\u0590-\u05FF]/.test(text);
-  };
+
+    // If text is already in English, return it as-is
+    return text;
+  } catch (error) {
+    console.error('Error detecting or translating text:', error);
+    throw new Error('Failed to detect or translate text.');
+  }
+};
+
+/* Function to translate text back to Hebrew */
+const translateToHebrew = async (text) => {
+  try {
+    const [translation] = await translateClient.translateText({
+      parent: `projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}`,
+      contents: [text],
+      targetLanguageCode: 'he',
+    });
+
+    return translation.translations[0].translatedText;
+  } catch (error) {
+    console.error('Error translating text back to Hebrew:', error);
+    throw new Error('Failed to translate text back to Hebrew.');
+  }
+};
+
+// Add a helper function to detect if the input text is in Hebrew:
+const isHebrew = (text) => {
+  // Simple regex to detect Hebrew characters
+  return /[\u0590-\u05FF]/.test(text);
+};
 
 /* 1) Analyze text with Perspective API */
 const analyzeTextWithPerspective = async (text) => {
@@ -306,7 +306,7 @@ app.post("/api/generate-non-toxic", async (req, res) => {
     if (isHebrew(text)) {
       translatedText = await translateToEnglish(text);  // Translate Hebrew to English
     }
-    
+
     let nonToxicText = await generateNonToxicText(translatedText);
 
     if (isHebrew(text)) {

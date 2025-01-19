@@ -36,32 +36,143 @@ const TextInputWithDangerScore: React.FC = () => {
     return "low";
   };
 
-  const highlightToxicWords = (text, toxicWords) => {
+  /**
+   * Highlights all occurrences of any unique toxic words/phrases by wrapping them in a span
+   * 1) Identify single-word toxic items (use \b boundaries).
+   * 2) Identify multi-word toxic items (use substring search).
+   */
+  function highlightToxicItems(
+    originalText: string,
+    toxicItems: { text: string }[]
+  ) {
+    const singleWords: string[] = [];
+    const multiWordPhrases: string[] = [];
+
+    for (const { text } of toxicItems) {
+      const trimmed = text.trim();
+      if (!trimmed) continue;
+
+      // Check if the token is only alphanumeric/underscore
+      if (/^[A-Za-z0-9_]+$/.test(trimmed)) {
+        singleWords.push(trimmed);
+      } else {
+        multiWordPhrases.push(trimmed);
+      }
+    }
+
+    const singleWordMatches = findSingleWordMatches(originalText, singleWords);
+
+    const phraseMatches = findPhraseMatches(originalText, multiWordPhrases);
+
+    const allMatches = [...singleWordMatches, ...phraseMatches];
+
+    if (allMatches.length === 0) {
+      // No matches => just return text with line breaks/spaces replaced
+      return originalText
+        .replace(/\n/g, "<br/>")
+        .replace(/ {2}/g, "&nbsp;&nbsp;");
+    }
+
+    // Sort matches by start index -> no overlap/missing words
+    allMatches.sort((a, b) => a.start - b.start);
+
     let highlightedText = "";
     let currentIndex = 0;
+    for (const match of allMatches) {
+      highlightedText += originalText.slice(currentIndex, match.start);
+      highlightedText += `<span class="toxic-word" data-text="${match.matched}">${match.matched}</span>`;
+      currentIndex = match.end;
+    }
+    highlightedText += originalText.slice(currentIndex);
 
-    toxicWords.forEach(({ text: toxicWord }) => {
-      const wordIndex = text.indexOf(toxicWord, currentIndex);
-      if (wordIndex !== -1) {
-        // Append text before the toxic word
-        highlightedText += text.slice(currentIndex, wordIndex);
-        // Append the toxic word wrapped in a span
-        highlightedText += `<span class="toxic-word" data-text='${toxicWord}'>${toxicWord}</span>`;
-        currentIndex = wordIndex + toxicWord.length;
-      }
-    });
-    // Append the remaining text
-    highlightedText += text.slice(currentIndex);
+    highlightedText = highlightedText
+      .replace(/\n/g, "<br/>")
+      .replace(/ {2}/g, "&nbsp;&nbsp;");
+
     return highlightedText;
-  };
+  }
+
+  //Whole-word matches for alphanumeric tokens using \b boundaries.
+  function findSingleWordMatches(
+    text: string,
+    words: string[]
+  ): Array<{ start: number; end: number; matched: string }> {
+    if (!words.length) return [];
+
+    const unique = Array.from(new Set(words.map((w) => w.toLowerCase())));
+
+    // Escapes special characters in the words
+    const escaped = unique.map(escapeRegExp);
+
+    // Creates a regular expression pattern for matching the words
+    const pattern = new RegExp(`\\b(?:${escaped.join("|")})\\b`, "gi");
+
+    const matches: Array<{ start: number; end: number; matched: string }> = [];
+    // Special type of array returned by the exec() method on a regular expression
+    let matchResult: RegExpExecArray | null;
+
+    while ((matchResult = pattern.exec(text)) !== null) {
+      matches.push({
+        start: matchResult.index,
+        end: matchResult.index + matchResult[0].length,
+        matched: matchResult[0],
+      });
+    }
+
+    return matches;
+  }
+
+  // Exact substring matching for multi-word phrases, punctuation, or emojis
+  function findPhraseMatches(
+    originalText: string,
+    phrases: string[]
+  ): Array<{ start: number; end: number; matched: string }> {
+    const results: Array<{ start: number; end: number; matched: string }> = [];
+
+    if (!phrases.length) return results;
+
+    const lowerText = originalText.toLowerCase();
+
+    for (const phrase of phrases) {
+      const lowerPhrase = phrase.toLowerCase();
+      let searchIndex = 0;
+
+      while (true) {
+        const foundIndex = lowerText.indexOf(lowerPhrase, searchIndex);
+        if (foundIndex === -1) break;
+
+        const matched = originalText.slice(
+          foundIndex,
+          foundIndex + phrase.length
+        );
+
+        results.push({
+          start: foundIndex,
+          end: foundIndex + phrase.length,
+          matched,
+        });
+
+        searchIndex = foundIndex + phrase.length;
+      }
+    }
+
+    return results;
+  }
+
+  // Escape special characters for safe usage in a RegExp pattern.
+  function escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
 
   // Handle clicks on toxic words
   const handleWordClick = (word: string) => {
     const toxicWord = toxicWordsList.find(
       ({ text }) => text.toLowerCase() === word.toLowerCase()
     );
+
     if (toxicWord) {
       setActiveWord((prev) =>
+        // Optional chaining ensures this check does not throw an error if prev is null
         prev?.text.toLowerCase() === word.toLowerCase() ? null : toxicWord
       );
     }
@@ -80,7 +191,7 @@ const TextInputWithDangerScore: React.FC = () => {
 
     try {
       const response = await axios.post<ToxicityResponse>(
-        "http://localhost:5001/api/toxicity-check",
+        `${import.meta.env.VITE_SERVER_API_URL}/api/toxicity-check`,
         { text: text.trim() }
       );
 
@@ -91,8 +202,6 @@ const TextInputWithDangerScore: React.FC = () => {
         toxicText,
         englishText,
       } = response.data;
-
-      console.log("the english text is", englishText);
 
       setToxicityScore(toxicityScore);
       setToxicityLabel(toxicityLabel);
@@ -112,7 +221,7 @@ const TextInputWithDangerScore: React.FC = () => {
   const getNonToxicText = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/generate-non-toxic",
+        `${import.meta.env.VITE_SERVER_API_URL}/api/generate-non-toxic`,
         { text: inputText }
       );
 
@@ -164,12 +273,15 @@ const TextInputWithDangerScore: React.FC = () => {
           {otherAttributes && Object.keys(otherAttributes).length > 0 && (
             <div className="score-display">
               <h3>Detected Issues:</h3>
+              {/* Filters the keys of otherAttributes to find attributes that have a summaryScore.value defined
+              and greater than 0.55. */}
               {Object.keys(otherAttributes)
                 .filter((key) => {
                   const score = otherAttributes[key]?.summaryScore?.value;
                   return score !== undefined && score > 0.55;
                 })
                 .map((key) => (
+                  // Maps over the filtered keys, converts from decimal to percentage and rounds to the nearest whole number
                   <p key={key}>
                     <strong>{key}</strong>:{" "}
                     {(otherAttributes[key]?.summaryScore?.value * 100).toFixed(
@@ -188,7 +300,7 @@ const TextInputWithDangerScore: React.FC = () => {
             ) : (
               <div
                 dangerouslySetInnerHTML={{
-                  __html: highlightToxicWords(englishText, toxicWordsList),
+                  __html: highlightToxicItems(englishText, toxicWordsList),
                 }}
                 onClick={(e) => {
                   const target = e.target as HTMLSpanElement;
