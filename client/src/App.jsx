@@ -57,7 +57,6 @@ function AppContent() {
               <h1 className={styles.appName}>SafeSpace</h1>
             ) : (
               <div className={styles.navLinks}>
-                <Link to="/algorithm" className={styles.appLink}>Algorithm</Link>
                 <Link to="/chatbot" className={styles.appLink}>Chatbot</Link>
                 <button
                   onClick={async () => {

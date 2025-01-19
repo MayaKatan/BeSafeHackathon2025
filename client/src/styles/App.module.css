@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #2b4979;
+  background: #384d6e;
   backdrop-filter: blur(12px);
   padding: 1rem 2rem;
   color: white;
@@ -33,6 +33,10 @@
   color: white;
   text-decoration: none;
   font-size: 1.2em;
+  padding: 6px;
+  margin: 10px;
+  background-color: #dc3545;
+  border-radius: 5px;
 }
 
 .appLink:hover {
