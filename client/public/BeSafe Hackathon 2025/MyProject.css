@@ -12,12 +12,11 @@ body {
 
 /* עיצוב כותרת עליונה */
 header {
-    background-color: #5d8cc9;
+    background-color: #5d8cc9; 
     color: white;
     font-size: 35px;
     font-family: 'segoe UI';
-    padding: 10px 0;
-    /* padding מלמעלה ומלמטה */
+    padding: 10px 0; /* padding מלמעלה ומלמטה */
     text-align: center;
     font-weight: bold;
     line-height: 50px;
@@ -30,7 +29,7 @@ header {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 40px;
-
+    
 }
 
 /* עיצוב הקוביות */
@@ -46,12 +45,29 @@ header {
     cursor: pointer;
     text-decoration: none;
     color: #5d8cc9;
-    font-size: 30px
-        /*גודל הפונט שבתוך הקוביות*/
-
-
+    font-size: 30px /*גודל הפונט שבתוך הקוביות*/
+    
+    
 }
 
 .box:hover {
     background-color: #a0b7df;
 }
+
+.back-button{
+    position: absolute; /* עושה את הכפתור מנותק מהזרימה הרגילה של הדף */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק משמאל */
+    padding: 10px 20px; /* ריפוד פנימי של הכפתור */
+    background-color: #4074b8; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    border: none; /* בלי גבול */
+    font-family: 'Segoe UI';
+    border-radius: 5px; /* קצוות מעוגלים */
+    font-size: 16px; /* גודל פונט */
+    cursor: pointer; /* הופך את הסמן לאצבע */
+  }
+  
+  .back-button:hover {
+    background-color: #a0b7df; /* צבע רקע כשיש ריחוף */
+  }
