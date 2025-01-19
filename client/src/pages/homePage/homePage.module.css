@@ -1,0 +1,336 @@
+/* Reset and base styles */
+:root {
+    --blue-900: #1e3a8a;
+    --indigo-900: #312e81;
+    --purple-900: #581c87;
+    --blue-400: #60a5fa;
+    --purple-400: #c084fc;
+    --indigo-400: #818cf8;
+    --blue-200: #bfdbfe;
+    --yellow-400: #facc15;
+    --green-400: #4ade80;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: white;
+}
+
+/* Main layout */
+.app {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--blue-900), var(--indigo-900), var(--purple-900));
+    direction: rtl;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Hero section */
+.hero {
+    padding: 5rem 1rem 8rem;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    animation: slideUp 1s ease-out;
+}
+
+@media (min-width: 768px) {
+    .hero h1 {
+        font-size: 4rem;
+    }
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--blue-200);
+    max-width: 36rem;
+    margin: 0 auto 3rem;
+    animation: slideUp 1s ease-out 0.2s backwards;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    background: var(--blue-400);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1.125rem;
+    animation: slideUp 1s ease-out 0.4s backwards;
+}
+
+.button:hover {
+    background: var(--blue-900);
+    transform: scale(1.05);
+}
+
+.button svg {
+    margin-left: 0.5rem;
+    transition: transform 0.3s;
+}
+
+.button:hover svg {
+    transform: translateX(4px);
+}
+
+/* Features section */
+.features {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 6rem 1rem;
+    animation: fadeIn 1s ease-out 0.6s backwards;
+}
+
+.featuresGrid {
+    display: grid;
+    gap: 2rem;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .featuresGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.featureCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+    animation: slideUp 1s ease-out;
+}
+
+.featureCard:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+    transform: translateY(-4px);
+}
+
+.featureIcon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.featureIcon.blue {
+    background: rgba(96, 165, 250, 0.1);
+}
+
+.featureIcon.purple {
+    background: rgba(192, 132, 252, 0.1);
+}
+
+.featureIcon.indigo {
+    background: rgba(129, 140, 248, 0.1);
+}
+
+.featureIcon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.featureIcon.blue svg {
+    color: var(--blue-400);
+}
+
+.featureIcon.purple svg {
+    color: var(--purple-400);
+}
+
+.featureIcon.indigo svg {
+    color: var(--indigo-400);
+}
+
+.featureCard h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.featureCard p {
+    color: var(--blue-200);
+    margin-bottom: 1.5rem;
+}
+
+.featureLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    color: var(--blue-200);
+    transition: color 0.3s;
+    text-decoration-line: underline;
+}
+
+.featureLink span {
+    margin-right: 0.5rem;
+    color: var(--blue-200);
+    text-decoration-line: underline;
+}
+
+.featureCard:hover .featureLink {
+    color: var(--blue-400);
+}
+
+/* Stats section */
+.stats {
+    padding: 6rem 1rem;
+    animation: fadeIn 1s ease-out 0.8s backwards;
+}
+
+.statsGrid {
+    display: grid;
+    gap: 2rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .statsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.statCard {
+    padding: 1.5rem;
+    animation: slideUp 1s ease-out;
+}
+
+.statIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.statIcon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.statLabel {
+    color: var(--blue-200);
+}
+
+.logoutButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--red-500, #dc3545);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.logoutButton:hover {
+    background-color: var(--red-700, #c82333);
+    transform: scale(1.05);
+}
+
+/* SOS Link in Top-Left Corner */
+.sosLink {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    /* Positioned on the far left */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--yellow-400, #facc15);
+    color: black;
+    font-weight: bold;
+    font-size: 1.125rem;
+    text-decoration: none;
+    border-radius: 50%;
+    /* Make it circular */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.sosLink svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.sosLink:hover {
+    background-color: var(--yellow-600, #d4af37);
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
