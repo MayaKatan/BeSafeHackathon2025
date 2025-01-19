@@ -38,28 +38,6 @@ h1 {
     margin-bottom: 30px;
 }
 
-/* עיצוב כפתורים */
-button {
-    width: 70%;
-    padding: 15px;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    background-color: #5d8cc9;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #2c5282;
-}
-
-button:focus {
-    outline: none;
-}
-
 /* תוצאה */
 .hidden {
     display: none;
@@ -91,4 +69,48 @@ button:focus {
     max-width: 300px;
     display: block;
     margin: 20px auto 0 auto;
+}
+
+.back-button{
+    position: absolute; /* עושה את הכפתור מנותק מהזרימה הרגילה של הדף */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק משמאל */
+    padding: 10px 20px; /* ריפוד פנימי של הכפתור */
+    background-color: #4074b8; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    border: none; /* בלי גבול */
+    font-family: 'Segoe UI';
+    border-radius: 5px; /* קצוות מעוגלים */
+    font-size: 16px; /* גודל פונט */
+    cursor: pointer; /* הופך את הסמן לאצבע */
+  }
+  
+  .back-button:hover {
+    background-color: #a0b7df; /* צבע רקע כשיש ריחוף */
+  }
+  
+  /* עיצוב כפתורים */
+button {
+    width: 70%;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    background-color: #5d8cc9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2c5282;
+}
+
+button:focus {
+    outline: none;
+}
+
+#back{
+    width: 12%;
 }
