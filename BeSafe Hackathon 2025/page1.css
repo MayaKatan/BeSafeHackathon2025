@@ -1,20 +1,35 @@
 /* עיצוב בסיסי לדף */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ebbfbf; /*  הרקע של האתר עצמו */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f7ff; /* צבע רקע מעודכן */
+    line-height: 1.6;
+    color: #2d3748; /* צבע טקסט מעודכן */
     direction: rtl;
 }
 
-/*  עיצוב הכותרת הראשית ותת הכותרת */
+/* עיצוב הכותרת הראשית ותת הכותרת */
 header {
-    background-color: #9b5155; /*הרקע שמאחורי הכותרת הראשית*/
-    font-size: 18px;
-    font-family: 'Gan CLM';
-    color: white; /*הצבע של הכותרת הראשית*/
-    padding: 10px;
     text-align: center;
+    padding: 2.5rem 1rem;
+    background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%); /* רקע מעודכן */
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+header h2 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    opacity: 0.9;
 }
 
 /* הגדרת מכולה לתיבות */
@@ -28,8 +43,8 @@ header {
 
 /* עיצוב בסיסי לתיבה */
 .charity {
-    background-color: #ffffff; /*הצבע של התיבה */
-    border: 1px solid #ffffff; /*הגבול של התיבה */
+    background-color: #ffffff; /* הצבע של התיבה */
+    border: 1px solid #ffffff; /* הגבול של התיבה */
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -44,12 +59,13 @@ header {
 /* אפקט רחף לתיבה */
 .charity:hover {
     transform: scale(1.05);
-    background-color: #a77476; /*הגוון החדש של התיבה כשהלחצן נוגע בה */
+    background-color: #3182ce; /* שינוי צבע הגוון כאשר יש רחף */
 }
 
+/* עיצוב הכפתורים */
 button {
-    background-color: #9b5155; /* צבע הכפתור */
-    color: #ffffff; /* צבע הטקסט של הכפתור   */
+    background-color: #3182ce; /* צבע הכפתור מעודכן */
+    color: white; /* צבע הטקסט של הכפתור */
     font-family: 'David Libre';
     padding: 10px 20px; 
     border: none; 
@@ -59,6 +75,6 @@ button {
 }
 
 button:hover {
-    background-color: #d7c6c7; /* הצבע החדש של הכפתור כשהלחצן נוגע בו*/
+    background-color: #2c5282; /* צבע הכפתור כאשר יש רחף */
 }
 
