@@ -1,48 +1,69 @@
-
-/*  הגדרות עיצוב שמשפיעות על כל עמוד המקושר לעמוד הראשי*/
+/*  הגדרות עיצוב שמשפיעות על כל עמוד המקושר לעמוד הראשי */
 
 /*  העיצוב הכללי של כל דף */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ebbfbf;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f0f7ff;
     margin: 0;
     padding: 0;
     direction: rtl;
+    line-height: 1.6;
+    color: #2d3748;
 }
 
 /* עיצוב כותרת עליונה */
 header {
-    background-color: #9b5155; 
-    color: white;
-    font-size: 35px;
-    font-family:'Gan CLM';
-    padding: 20px;
     text-align: center;
+    padding: 2.5rem 1rem;
+    background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
 }
 
 /* הגדרת הגריד לקוביות */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 20px;
     padding: 20px;
 }
 
 /* עיצוב הקוביות */
 .box {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #3182ce; /* גוון כחול דמוי עיצוב של עמית */
+    border: none;
+    border-radius: 1rem;
     padding: 100px;
     text-align: center;
     font-size: 25px;
-    font-family: 'Gan CLM';
+    font-weight: 500;
+    color: white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     cursor: pointer;
     text-decoration: none;
-    color: #9b5155;
-    font-size: 25px /*גודל הפונט שבתוך הקוביות*/
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .box:hover {
-    background-color: #d7c6c7;
+    background-color: #2b6cb0; /* כהה יותר של אותו כחול */
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Main content area */
+main {
+    padding: 3rem 1.5rem;
+    background-color: #f0f7ff;
+    min-height: calc(100vh - 200px);
 }
 
