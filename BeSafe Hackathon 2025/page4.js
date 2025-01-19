@@ -154,3 +154,7 @@ function startGame() {
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('start-screen').classList.remove('hidden');
 });
+
+function goBack() {
+  window.location.href = 'MyProject.html';  
+}
