@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
 import "./styles/ToxicityChecker.css";
-
+import { useNavigate } from "react-router-dom";
 interface ToxicText {
   text: string;
   sentence: string;
@@ -27,6 +27,7 @@ const TextInputWithDangerScore: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [nonToxicText, setNonToxicText] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const isToxic = useMemo(() => toxicWordsList.length > 0, [toxicWordsList]);
 
@@ -237,6 +238,9 @@ const TextInputWithDangerScore: React.FC = () => {
 
   return (
     <div className="toxicity-checker">
+      <button className="corner-button" onClick={() => navigate("/")}>
+        Back to Home Page
+      </button>
       <h2>Internet Safety Checker</h2>
       <div className="center-container">
         <textarea

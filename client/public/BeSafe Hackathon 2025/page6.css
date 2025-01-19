@@ -1,25 +1,25 @@
 /* עיצוב בסיסי לדף */
 body {
     font-family: 'segoe UI';
+    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
     margin: 0;
     padding: 0;
-    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
     background-position: -50px center;
     direction: rtl;
 }
 
-/* עיצוב הכותרת הראשית ותת הכותרת */
+/*  עיצוב הכותרת הראשית ותת הכותרת */
 header {
-    background-color: #5d8cc9; 
+    background-color: #5d8cc9; /*הרקע שמאחורי הכותרת הראשית*/
     color: white;
     font-size: 18px;
     font-family: 'segoe UI';
-    padding: 10px; /* padding מלמעלה ומלמטה */
+    padding: 10px;
     text-align: center;
 }
 
 /* הגדרת מכולה לתיבות */
-.charities-list {
+.cases-list {
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-around; 
@@ -28,9 +28,9 @@ header {
 }
 
 /* עיצוב בסיסי לתיבה */
-.charity {
-    background-color: #eff3fa; /* הצבע של התיבה */
-    border: 2px solid #4074b8; /* הגבול של התיבה */
+.case {
+    background-color: #eff3fa; /*הצבע של התיבה */
+    border: 2px solid #4074b8; /*הגבול של התיבה */
     border-radius: 1.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -43,15 +43,14 @@ header {
 }
 
 /* אפקט רחף לתיבה */
-.charity:hover {
+.case:hover {
     transform: scale(1.05);
-    background-color: #a0b7df; /* שינוי צבע הגוון כאשר יש רחף */
+    background-color: #a0b7df; /*הגוון החדש של התיבה כשהלחצן נוגע בה */
 }
 
-/* עיצוב הכפתורים */
 button {
-    background-color: #4074b8; /* צבע הכפתור מעודכן */
-    color: white; /* צבע הטקסט של הכפתור */
+    background-color: #4074b8; /* צבע הכפתור */
+    color: #ffffff; /* צבע הטקסט של הכפתור   */
     font-family: 'segoe UI';
     padding: 10px 20px; 
     border: none; 
@@ -61,11 +60,11 @@ button {
 }
 
 button:hover {
-    background-color: #2c5282; /* צבע הכפתור כאשר יש רחף */
+    background-color: #2c5282; /* הצבע החדש של הכפתור כשהלחצן נוגע בו*/
 }
 
 .back-button {
-    position: absolute; /* כפתור קבוע */
+    position: absolute; /* מיקום יחסי ל-header */
     top: 10px; /* מרחק מראש העמוד */
     right: 10px; /* מרחק מצד ימין */
     background-color: #4074b8; /* צבע רקע */
@@ -77,3 +76,4 @@ button:hover {
     cursor: pointer; /* סמן של כפתור */
     z-index: 1000; /* כדי להיות מעל כל האלמנטים */
 }
+

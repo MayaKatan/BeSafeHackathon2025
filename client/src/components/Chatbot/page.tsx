@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { flowData } from "./flowData";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Bot: React.FC = () => {
   const [currentId, setCurrentId] = useState<string | null>("1");
   const [history, setHistory] = useState<string[]>([]);
@@ -13,6 +13,7 @@ const Bot: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // Used to create a reference to a div element at the bottom of the chat. This reference is stored in the messagesEndRef variable.
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const currentQuestion = flowData.find(
     (question) => question.id === currentId
@@ -178,6 +179,26 @@ const Bot: React.FC = () => {
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
       }}
     >
+      <button
+        className="corner-button"
+        onClick={() => navigate("/")}
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          left: "20px",
+          padding: "0.75rem 1.5rem",
+          backgroundColor: "#2b4979",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
+          fontSize: "1rem",
+          fontWeight: "600",
+          cursor: "pointer",
+          zIndex: "1000",
+        }}
+      >
+        חזרה לדף הבית
+      </button>
       <h2 style={{ textAlign: "center" }}>בוט תמיכה</h2>
       <div
         style={{

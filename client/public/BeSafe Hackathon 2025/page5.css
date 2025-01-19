@@ -1,3 +1,10 @@
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #d7ecef;
+    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
+}
+
 header {
     background-color: #ADD8E6; /* Light blue background for the header */
     padding: 20px 0;
@@ -12,13 +19,7 @@ header h1 {
     text-align: center;
 }
 
-main{
-    background-color:#d7ecef
-}
 
-body {
-    background-color: #d7ecef;
-}
 main h2:first-of-type {
     background-color: #ADD8E6; /* Light blue background for the first h2 */
     padding: 40px;
@@ -33,7 +34,8 @@ main h2:first-of-type {
 
 .question-container {
     margin-bottom: 20px;
-    text-align: center; /* Center the text */
+    text-align: center;
+    padding: 5px;
 }
 
 .question-button {
@@ -50,6 +52,8 @@ main h2:first-of-type {
     max-width: 500px; /* Max width to avoid overly stretched buttons */
     margin-left: auto;
     margin-right: auto;
+    font-weight: bold;
+    font-size: 2rem; 
 }
 
 .question-button:hover {
@@ -67,6 +71,11 @@ main h2:first-of-type {
     line-height: 1.5; /* Optional: Adjust line height for better readability */
     word-wrap: break-word;
     color: #2e5691; /* Optional, adjust the answer text color */
+    background-color: #c5e4ec;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 20px;
+    font-size: 2rem;
 }
 
 footer {
@@ -83,6 +92,8 @@ footer a {
     color: white; /* Set the text color to white */
     font-size: 16px; /* Adjust the font size (optional) */
     transition: color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 footer a:hover {

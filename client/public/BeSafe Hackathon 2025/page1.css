@@ -1,64 +1,70 @@
 /* עיצוב בסיסי לדף */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ebbfbf; /*  הרקע של האתר עצמו */
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
+    background-position: -50px center;
+    background-size: cover;
+    line-height: 1.6;
+    color: #2d3748;
     direction: rtl;
 }
 
-/*  עיצוב הכותרת הראשית ותת הכותרת */
+/* עיצוב הכותרת הראשית ותת הכותרת */
 header {
-    background-color: #9b5155; /*הרקע שמאחורי הכותרת הראשית*/
-    font-size: 18px;
-    font-family: 'Gan CLM';
-    color: white; /*הצבע של הכותרת הראשית*/
-    padding: 10px;
     text-align: center;
+    padding: 10px 0;
+    background-color: #5d8cc9;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* הגדרת מכולה לתיבות */
 .charities-list {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-around; 
-    gap: 20px; 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
     padding: 20px;
 }
 
 /* עיצוב בסיסי לתיבה */
 .charity {
-    background-color: #ffffff; /*הצבע של התיבה */
-    border: 1px solid #ffffff; /*הגבול של התיבה */
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    background-color: #eff3fa;
+    border: 2px solid #4074b8;
+    padding: 20px; 
+    border-radius: 1.5rem;
     text-align: center;
-    font-family: 'Calibri'; 
-    flex: 1 1 calc(30% - 20px); /* כל תיבה תתפוס אחוז מסויים מרוחב השורה */
-    box-sizing: border-box; 
-    max-width: 350px; /* הרוחב שהגדרתי לתיבה*/
-    transition: transform 0.3s, background-color 0.3s;
+    font-family: 'Segoe UI'; 
+    color: #5d8cc9;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 /* אפקט רחף לתיבה */
 .charity:hover {
+    background-color: #a0b7df;
     transform: scale(1.05);
-    background-color: #a77476; /*הגוון החדש של התיבה כשהלחצן נוגע בה */
 }
 
+/* עיצוב הכפתורים */
 button {
-    background-color: #9b5155; /* צבע הכפתור */
-    color: #ffffff; /* צבע הטקסט של הכפתור   */
-    font-family: 'David Libre';
-    padding: 10px 20px; 
-    border: none; 
-    border-radius: 5px; /* פינות מעוגלות */
-    cursor: pointer; /* סמן העכבר הופך ליד */
+    background-color: #5d8cc9;
+    color: white;
+    font-family: 'Segoe UI';
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #d7c6c7; /* הצבע החדש של הכפתור כשהלחצן נוגע בו*/
+    background-color: #2c5282;
 }
 

@@ -47,10 +47,14 @@
 /* Parent container styles */
 .center-container {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
-  margin: 0; /* Removes default margins */
+  justify-content: center;
+  /* Centers horizontally */
+  align-items: center;
+  /* Centers vertically */
+  margin: 0;
+  /* Removes default margins */
 }
+
 /* Textarea styles */
 .toxicity-input {
   width: 100%;
@@ -364,4 +368,30 @@
 
 .score-display h3[data-score="low"]::after {
   content: '😟';
+}
+
+.corner-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 0.75rem 1.5rem;
+  background-color: #2b4979;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+
+.corner-button:hover {
+  background-color: #37588e;
+  transform: scale(1.05);
+}
+
+.corner-button:active {
+  background-color: #37588e;
+  transform: scale(0.95);
 }
