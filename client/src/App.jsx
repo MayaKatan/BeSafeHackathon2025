@@ -54,10 +54,7 @@ function AppContent() {
           <img src={projectLogo} alt="Logo" className={styles.appLogo} />
           <nav className={styles.appNav}>
             {!user ? (
-              <div className={styles.authLinks}>
-                <Link to="/login" className={styles.appLink}>Login</Link>
-                <Link to="/signup" className={styles.appLink}>Signup</Link>
-              </div>
+              <h1 className={styles.appName}>SafeSpace</h1>
             ) : (
               <div className={styles.navLinks}>
                 <Link to="/algorithm" className={styles.appLink}>Algorithm</Link>

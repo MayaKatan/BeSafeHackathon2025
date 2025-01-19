@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { Link, useNavigate } from "react-router-dom";
-
+import styles from "./page.module.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,29 +36,38 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        Don't have an account? <Link to="/signup">Sign Up</Link>
-      </p>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginBox}>
+        <h1 className={styles.title}>התחברות</h1>
+        {error && <div className={styles.error}>{error}</div>}
+        <form onSubmit={handleLogin} className={styles.form}>
+          <input
+            type="email"
+            placeholder="כתובת מייל"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={styles.input}
+          />
+          <input
+            type="password"
+            placeholder="סיסמה"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className={styles.input}
+          />
+          <button type="submit" className={styles.submitButton}>
+            התחברות
+          </button>
+        </form>
+        <p className={styles.signupText}>
+          אין לך משתמש?
+          <Link to="/signup" className={styles.signupLink}>
+            הרשם
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
