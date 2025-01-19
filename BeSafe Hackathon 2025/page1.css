@@ -68,3 +68,20 @@ button:hover {
     background-color: #2c5282;
 }
 
+.back-button {
+    position: absolute; /* עושה את הכפתור מנותק מהזרימה הרגילה של הדף */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק משמאל */
+    padding: 10px 20px; /* ריפוד פנימי של הכפתור */
+    background-color: #4074b8; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    border: none; /* בלי גבול */
+    font-family: 'Segoe UI';
+    border-radius: 5px; /* קצוות מעוגלים */
+    font-size: 16px; /* גודל פונט */
+    cursor: pointer; /* הופך את הסמן לאצבע */
+  }
+  
+  .back-button:hover {
+    background-color: #a0b7df; /* צבע רקע כשיש ריחוף */
+  }
