@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="he">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>לומדה</title>
-    <link rel="stylesheet" href="MyProject.css">
+    <link rel="stylesheet" href="MyProject.css"> 
 </head>
-
 <body>
     <header>
+        <button id="back" class="back-button" onclick="goBack()">חזרה לעמוד הקודם</button>
         <h1>ברוכים הבאים ללומדת בטיחות ברשת</h1>
         <p>לחצו על אחת הקוביות כדי להתחיל</p>
     </header>
@@ -22,5 +21,9 @@
         <a href="page6.html" class="box" id="box6">תעשו את הצעד הבא</a> <!---->
     </main>
 </body>
-
+<script>
+    function goBack() {
+      window.location.href = 'homePage.html';  
+    }
+  </script>
 </html>
