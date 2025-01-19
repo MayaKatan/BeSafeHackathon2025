@@ -37,12 +37,14 @@ function App() {
             התנתק
           </button>
 
-          <a
-            href="/BeSafe Hackathon 2025/page5.html"
-            className={styles.sosLink}
-          >
-            <AlertCircle />
-          </a>
+          <div>
+            <a
+              href="/BeSafe Hackathon 2025/page5.html"
+              className={styles.sosLink}
+            >
+              <AlertCircle />
+            </a>
+          </div>
 
           <h1>הישארו בטוחים בעולם הדיגיטלי</h1>
           <p>
