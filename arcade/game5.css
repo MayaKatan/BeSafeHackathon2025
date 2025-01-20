@@ -1,0 +1,101 @@
+/* עיצוב כללי */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
+    background-position: -50px center;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #e57f3b;
+    direction: rtl;
+}
+
+/* מכולה */
+.container {
+    width: 90%;
+    max-width: 800px;
+    background-color: #ebd5bf;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* כותרות בתוך השאלות */
+h1 {
+    font-size: 2rem;
+    color: #da7347;
+}
+
+/* עיצוב כפתורים */
+button {
+    width: 70%;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.6s ease;
+    transform-origin: center;
+}
+
+/* כפתורים עם צבע רקע ירוק */
+#green-button {
+    background-color: rgb(223, 157, 95);
+}
+
+#green-button:hover {
+    background-color: green;
+}
+
+/* כפתורים עם צבע רקע אדום */
+#red-button {
+    background-color:  rgb(223, 157, 95);
+}
+
+#red-button:hover {
+    background-color: red;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* תוצאה */
+.hidden {
+    display: none;
+}
+
+/* התאמה לגודל מסך */
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+
+    #question {
+        font-size: 1.2rem;
+    }
+}
+
+/* עיצוב לתמונה */
+.game-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.game-image {
+    width: 300%;
+    max-width: 700px;
+    display: block;
+    margin: 20px auto 0 auto;
+}

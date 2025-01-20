@@ -1,0 +1,163 @@
+/*  הגדרות עיצוב שמשפיעות על כל עמוד המקושר לעמוד הראשי*/
+
+/*  העיצוב הכללי של כל דף */
+body {
+    font-family: 'segoe UI';
+    background-image: url('https://as1.ftcdn.net/v2/jpg/04/18/87/48/1000_F_418874896_qSfcISJhMoGUuZLIy5H4snGdh2hHAH4r.jpg');
+    margin: 0;
+    padding: 0;
+    background-position: -50px center;
+    direction: rtl;
+}
+
+/* עיצוב כותרת עליונה */
+header {
+    background-color: #5d8cc9; 
+    color: white;
+    font-size: 35px;
+    font-family: 'segoe UI';
+    padding: 10px 0; /* padding מלמעלה ומלמטה */
+    text-align: center;
+    font-weight: bold;
+    line-height: 15px;
+
+}
+
+/* הגדרת הגריד לכל קוביה */
+/* הגדרת הגריד לקוביות */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 30px;
+}
+
+/* עיצוב קוביה 1 */
+#box1 {
+    background-color: #6ed6ca;
+    border: 2px solid #6ed6ca;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* עיצוב קוביה 2 */
+#box2 {
+    background-color: #ee847a;
+    border: 2px solid #ee847a;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* עיצוב קוביה 3 */
+#box3 {
+    background-color: #91cf6a;
+    border: 2px solid #91cf6a;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* עיצוב קוביה 4 */
+#box4 {
+    background-color: #eac24c;
+    border: 2px solid #eac24c;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* עיצוב קוביה 5 */
+#box5 {
+    background-color: #b886bf;
+    border: 2px solid #b886bf;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* עיצוב קוביה 6 */
+#box6 {
+    background-color: #e8af69;
+    border: 2px solid #e8af69;
+    padding: 50px;
+    border-radius: 10rem;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'segoe UI';
+    color: #ffffff;
+    text-decoration: none; /* מסיר קו תחתון גם בקישורים */
+    align-items: center; /* ממקם את כל התוכן למרכז */
+
+}
+
+/* Hover effect */
+.box:hover {
+    background-color: #a0b7df;
+}
+
+.box-image {
+    max-width: 60%; /* הגבלת רוחב התמונה */
+    max-height: 100px; /* הגבלת גובה התמונה */
+    object-fit: contain; /* שימור יחס גובה-רוחב של התמונה */
+    margin-top: 10px; /* רווח בין הטקסט לתמונה */
+    margin-left: auto; /* ממרכז את התמונה */
+    margin-right: auto; /* ממרכז את התמונה */
+    display: block; /* וודא שהתמונה תופס שורה חדשה */
+}  
+
+.back-button{
+    position: absolute; /* עושה את הכפתור מנותק מהזרימה הרגילה של הדף */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק משמאל */
+    padding: 10px 20px; /* ריפוד פנימי של הכפתור */
+    background-color: #4074b8; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    border: none; /* בלי גבול */
+    font-family: 'Segoe UI';
+    border-radius: 5px; /* קצוות מעוגלים */
+    font-size: 16px; /* גודל פונט */
+    cursor: pointer; /* הופך את הסמן לאצבע */
+  }
+  
+  .back-button:hover {
+    background-color: #a0b7df; /* צבע רקע כשיש ריחוף */
+  }
+
