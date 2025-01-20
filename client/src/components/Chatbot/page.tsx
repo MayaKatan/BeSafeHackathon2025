@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { flowData } from "./flowData";
 import axios from "axios";
-import './Bot.css';
-
+import { useNavigate } from "react-router-dom";
+import styles from "./page.module.css";
 
 const Bot: React.FC = () => {
   const [currentId, setCurrentId] = useState<string | null>("1");
@@ -14,6 +14,7 @@ const Bot: React.FC = () => {
   const [isOther, setIsOther] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const currentQuestion = flowData.find(
     (question) => question.id === currentId
@@ -21,16 +22,16 @@ const Bot: React.FC = () => {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      const chatContainer = messagesEndRef.current.parentElement;
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
     }
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]
-);
-
-
+  }, [messages]);
 
   const delayMessage = (message: string) => {
     setTimeout(() => {
@@ -39,10 +40,7 @@ const Bot: React.FC = () => {
           return prev;
         }
 
-        const updatedMessages: { sender: "bot" | "user"; text: string }[] = [
-          ...prev,
-          { sender: "bot", text: message },
-        ];
+        const updatedMessages = [...prev, { sender: "bot", text: message }];
 
         const isPredefinedAnswer = flowData.some(
           (question) =>
@@ -112,9 +110,8 @@ const Bot: React.FC = () => {
     const thread = `${messageThread}\nUser: ${customQuestion}`;
 
     try {
-      const url = 'http://localhost:5000/api/gemini-response';
       const res = await axios.post(
-      url,//api/gemini-response`,
+        `${import.meta.env.VITE_SERVER_API_URL}/api/gemini-response`,
         { thread },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -155,129 +152,47 @@ const Bot: React.FC = () => {
   };
 
   return (
-    <div
-      dir="rtl"
-      style={{
-        maxWidth: "600px",
-        margin: "0 auto",
-        padding: "1rem",
-        fontFamily: "'Roboto', sans-serif", // Friendly font
-        direction: "rtl",
-        textAlign: "right",
-        border: "1px solid #B3D7FF", // Light blue border
-        borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      }}
+    <div className={styles.botContainer}>
+      <h2 className={styles.botHeader}>בוט תמיכה</h2>
 
-      
-    >
-         <button
-        onClick={() => window.location.href = 'MyProject.html'}
-        style={{
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          padding: "0.5rem 1rem",
-          backgroundColor: "#3B74B5", 
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          fontSize: "0.8rem", 
-        }}
-      >
-        חזרה לעמוד הקודם
-      </button>
-      <h2 style={{ textAlign: "center",fontFamily: "'Assistant', 'Rubik', sans-serif",fontSize: "2.5rem", color: "#3B74B5"}}>בוט תמיכה</h2>
-      <div
-        style={{
-          height: "400px",
-          overflowY: "auto",
-          border: "1px solid #B3D7FF", // Light blue border
-          borderRadius: "10px",
-          padding: "1rem",
-          backgroundColor: "#E8F4FF", // Light blue background
-          direction: "rtl",
-        }}
-      >
+      <div className={styles.chatContainer}>
         {messages.map((msg, index) => (
           <div
             key={index}
-            style={{
-              textAlign: msg.sender === "bot" ? "right" : "left",
-              margin: "0.5rem 0",
-              direction: "rtl",
-            }}
+            className={`${styles.message} ${
+              msg.sender === "bot" ? styles.botMessage : styles.userMessage
+            }`}
           >
-            <div
-              style={{
-                display: "inline-block",
-                padding: "0.8rem 1.2rem",
-                borderRadius: "20px",
-                backgroundColor: msg.sender === "bot" ? "#A3C8FF" : "#3B74B5", // Bot and user message colors in blue scale
-                color: "#333",
-                whiteSpace: "pre-wrap",
-                textAlign: "right",
-                maxWidth: "80%",
-                wordBreak: "break-word",
-                marginBottom: "0.5rem",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow for speech bubbles
-                borderTopLeftRadius: msg.sender === "bot" ? "20px" : "0",
-                borderTopRightRadius: msg.sender === "user" ? "20px" : "0",
-                borderBottomLeftRadius: "20px",
-                borderBottomRightRadius: "20px",
-              }}
-            >
-              {msg.text}
-            </div>
+            {msg.sender === "bot" && isOther ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: msg.text }}
+                className={styles.messageBubble}
+              />
+            ) : (
+              <div className={styles.messageBubble}>{msg.text}</div>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
       {isOther && (
-        <div style={{ marginTop: "1rem", direction: "rtl" }}>
+        <div className={styles.inputContainer}>
           <textarea
             value={customQuestion}
             onChange={(e) => setCustomQuestion(e.target.value)}
             placeholder="כתוב כאן את השאלה שלך"
-            style={{
-              width: "100%",
-              height: "80px",
-              padding: "0.5rem",
-              border: "1px solid #B3D7FF", // Light blue border
-              borderRadius: "5px",
-              direction: "rtl",
-              textAlign: "right",
-              fontFamily: "'Assistant', 'Rubik', sans-serif", // Friendly font
-            }}
+            className={styles.chatTextarea}
           />
           <button
             onClick={handleSendToGemini}
-            style={{
-              marginTop: "0.5rem",
-              padding: "0.5rem 1rem",
-              backgroundColor: "#3B74B5", // Blue button
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            className={`${styles.button} ${styles.sendButton}`}
           >
             שליחה
           </button>
           <button
-            onClick={() => setIsOther(false)} // Exit "Other" mode
-            style={{
-              marginTop: "0.5rem",
-              marginLeft: "0.5rem",
-              padding: "0.5rem 1rem",
-              backgroundColor: "#FF6B6B", // Red button
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            onClick={() => setIsOther(false)}
+            className={`${styles.button} ${styles.exitButton}`}
           >
             סיימתי
           </button>
@@ -285,23 +200,12 @@ const Bot: React.FC = () => {
       )}
 
       {!isOther && currentQuestion && (
-        <div style={{ marginTop: "1rem", direction: "rtl" }}>
+        <div className={styles.optionsContainer}>
           {currentQuestion.options.map((option) => (
             <button
               key={option.id}
               onClick={() => handleOptionClick(option)}
-              style={{
-                display: "block",
-                width: "100%",
-                padding: "1rem",
-                marginBottom: "0.5rem",
-                backgroundColor: "#A3C8FF", // Option button
-                color: "#3B74B5", // Text color
-                border: "1px solid #B3D7FF", // Border in light blue
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontFamily: "'Assistant', 'Rubik', sans-serif", // Friendly font
-              }}
+              className={styles.optionButton}
             >
               {option.text}
             </button>
@@ -309,26 +213,16 @@ const Bot: React.FC = () => {
         </div>
       )}
 
-      <button
-        onClick={handleBack}
-        style={{
-          backgroundColor: "#FFD700", // Yellow "Back" button
-          color: "white",
-          padding: "0.7rem 1.2rem",
-          border: "none",
-          borderRadius: "10px",
-          cursor: "pointer",
-          marginTop: "1rem",
-        }}
-      >
-        חזור
-      </button>
-
-      {isLoading && (
-        <div style={{ textAlign: "center", marginTop: "1rem" }}>
-          <span>טעינה...</span>
-        </div>
+      {history.length > 0 && !isOther && (
+        <button
+          onClick={handleBack}
+          className={`${styles.button} ${styles.backNavButton}`}
+        >
+          חזור לשאלה הקודמת
+        </button>
       )}
+
+      {isLoading && <div className={styles.loading}>טוען...</div>}
     </div>
   );
 };

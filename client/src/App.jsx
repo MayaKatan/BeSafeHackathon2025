@@ -10,6 +10,7 @@ import styles from './styles/App.module.css';
 import projectLogo from './assets/AppLogo.jpeg';
 import { motion } from 'framer-motion';
 import HomePage from './pages/homePage/homePage';
+import ImageAnalyser from './components/ImageAnalyser/page.tsx';
 
 function AppContent() {
   const [user, setUser] = useState(null);
@@ -57,7 +58,9 @@ function AppContent() {
               <h1 className={styles.appName}>SafeSpace</h1>
             ) : (
               <div className={styles.navLinks}>
-                <Link to="/homePage" className={styles.appLink}>חזרה לעמוד הראשי</Link>
+                <Link to="/chatbot" className={styles.appLink}>Chatbot</Link>
+                <Link to="/image-analyser" className={styles.appLink}>Image Analyser</Link>
+
                 <button
                   onClick={async () => {
                     await supabase.auth.signOut();
@@ -103,6 +106,15 @@ function AppContent() {
             }
           />
 
+          <Route
+            path="/image-analyser"
+            element={
+              <ProtectedRoute>
+                <ImageAnalyser />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Home Page (Protected) */}
           <Route
             path="/"
@@ -120,39 +132,6 @@ function AppContent() {
           />
         </Routes>
       </main>
-
-      {!isHomePage && (
-        <motion.footer
-          className={styles.footer}
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
-            duration: 1,
-          }}
-        >
-          <div className={styles.footerContent}>
-            <p>&copy; Safety Checker App</p>
-            <motion.button
-              onClick={() =>
-                window.open(
-                  '/BeSafe Hackathon 2025/MyProject.html',
-                  '_blank',
-                  'noopener,noreferrer'
-                )
-              }
-              className={styles.portalButton}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              Learning Portal
-            </motion.button>
-          </div>
-        </motion.footer>
-      )}
     </div>
   );
 }

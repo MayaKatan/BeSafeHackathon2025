@@ -75,10 +75,8 @@
 
 /* Styles for non-homepage pages */
 .nonHomePageMain {
-  /* padding: 20px; */
   background-color: #f8f9fa;
-  height: calc(100vh - 160px);
-  /* Adjust height to account for header and footer */
+  height: 100vh;
 }
 
 .footer {

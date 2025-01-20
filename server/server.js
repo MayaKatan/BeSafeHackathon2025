@@ -2,8 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
+import multer from 'multer';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { TranslationServiceClient } from '@google-cloud/translate';
+import { ImageAnnotatorClient } from '@google-cloud/vision';
 
 dotenv.config();
 
@@ -12,6 +14,11 @@ app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_URL }));
 
 const translateClient = new TranslationServiceClient();
+const upload = multer();
+
+const visionClient = new ImageAnnotatorClient({
+  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS_IMAGE_ANALYSER,
+});
 
 /* Function to detect language and translate Hebrew to English */
 const translateToEnglish = async (text) => {
@@ -427,6 +434,31 @@ app.post("/api/toxicity-check", async (req, res) => {
   } catch (error) {
     console.error("Error processing text:", error);
     return res.status(500).json({ message: "Server error processing text" });
+  }
+});
+
+app.post("/api/analyse-image-upload", upload.single("image"), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ message: "No image file provided." });
+    }
+
+    const [safeSearchResult] = await visionClient.safeSearchDetection(file.buffer);
+    const safeSearchAnnotations = safeSearchResult.safeSearchAnnotation;
+
+    const filteredResults = Object.fromEntries(
+      Object.entries(safeSearchAnnotations).filter(
+        ([, likelihood]) => likelihood !== "VERY_UNLIKELY"
+      )
+    );
+
+    res.json({
+      safeSearch: filteredResults,
+    });
+  } catch (error) {
+    console.error("Error analyzing image:", error);
+    res.status(500).json({ message: "Server error analyzing image." });
   }
 });
 

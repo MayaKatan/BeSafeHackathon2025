@@ -1,0 +1,139 @@
+.imageAnalysisContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 50px auto;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(145deg, #9daac0, #f8fbff);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 78, 255, 0.1);
+    gap: 25px;
+    max-width: 800px;
+    width: 90%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #1a237e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.imageDropZone {
+    border: 3px dashed #4a90e2;
+    border-radius: 15px;
+    padding: 30px;
+    cursor: pointer;
+    background-color: rgba(74, 144, 226, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    width: 100%;
+}
+
+.imageDropZone:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+    transform: translateY(-2px);
+    border-color: #2979ff;
+}
+
+.fileInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.imageButton {
+    background: linear-gradient(45deg, #2962ff, #448aff);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3);
+}
+
+.imageButton:hover {
+    background: linear-gradient(45deg, #1a237e, #2962ff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(41, 98, 255, 0.4);
+}
+
+.errorMessage {
+    color: #f44336;
+    font-weight: 500;
+    background-color: rgba(244, 67, 54, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.resultsContainer {
+    text-align: center;
+    background: linear-gradient(145deg, #ffffff, #f5f9ff);
+    border: 2px solid #bbdefb;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.1);
+}
+
+.uploadedImage {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.imageDescription {
+    color: #1976d2;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.warningMessage {
+    background: #fff4e6;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #6c757d;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+    text-align: center;
+}
+
+.warningMessage p {
+    margin: 0 0 10px;
+    font-weight: bold;
+}
+
+.warningMessage ul {
+    list-style: none;
+    padding: 0;
+}
+
+.warningMessage li {
+    margin: 5px 0;
+}
