@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { flowData } from "./flowData";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import './Bot.css';
+
 const Bot: React.FC = () => {
   const [currentId, setCurrentId] = useState<string | null>("1");
   const [history, setHistory] = useState<string[]>([]);
@@ -11,9 +12,7 @@ const Bot: React.FC = () => {
   const [customQuestion, setCustomQuestion] = useState<string>("");
   const [isOther, setIsOther] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // Used to create a reference to a div element at the bottom of the chat. This reference is stored in the messagesEndRef variable.
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
 
   const currentQuestion = flowData.find(
     (question) => question.id === currentId
@@ -27,13 +26,14 @@ const Bot: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages]
+);
 
-  // Adds a new bot message to the conversation with a delay
+
+
   const delayMessage = (message: string) => {
     setTimeout(() => {
       setMessages((prev) => {
-        // Prevent duplicate bot messages
         if (prev.find((msg) => msg.text === message && msg.sender === "bot")) {
           return prev;
         }
@@ -43,7 +43,6 @@ const Bot: React.FC = () => {
           { sender: "bot", text: message },
         ];
 
-        // Check if the message is one of the predefined answers
         const isPredefinedAnswer = flowData.some(
           (question) =>
             question.question === message ||
@@ -62,11 +61,8 @@ const Bot: React.FC = () => {
     }, 500);
   };
 
-  // Handles user selections, updates the history, and determines the next question or action based on the selected option
   const handleOptionClick = (option: any) => {
-    // Save current ID to history for "Back" functionality
     setHistory((prev) => [...prev, currentId!]);
-
     setMessages((prev) => [...prev, { sender: "user", text: option.text }]);
 
     if (option.text === "אחר") {
@@ -86,7 +82,6 @@ const Bot: React.FC = () => {
       delayMessage(option.explanation);
     }
 
-    // Find the next question based on parentId
     const nextQuestion = flowData.find((q) => q.parentId === option.id);
 
     if (nextQuestion) {
@@ -97,7 +92,6 @@ const Bot: React.FC = () => {
     }
   };
 
-  // Sends the user's custom question to an external API Gemini
   const handleSendToGemini = async () => {
     if (!customQuestion.trim()) {
       setMessages((prev) => [
@@ -110,20 +104,16 @@ const Bot: React.FC = () => {
     setMessages((prev) => [...prev, { sender: "user", text: customQuestion }]);
     setIsLoading(true);
 
-    // Constructs a formatted conversation history (a "message thread")
     const messageThread = messages
       .map((msg) => `${msg.sender === "bot" ? "Bot" : "User"}: ${msg.text}`)
       .join("\n");
 
-    //Combines the array of formatted strings into a single string, separating each line with a newline
     const thread = `${messageThread}\nUser: ${customQuestion}`;
 
-    console.log(messageThread);
-    console.log(customQuestion);
-
     try {
+      const url = 'http://localhost:5000/api/gemini-response';
       const res = await axios.post(
-        `${import.meta.env.VITE_SERVER_API_URL}/api/gemini-response`,
+      url,//api/gemini-response`,
         { thread },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -137,7 +127,6 @@ const Bot: React.FC = () => {
     }
   };
 
-  // Navigates to the previous question in history
   const handleBack = () => {
     const tempHistory = [...history];
     let lastQuestionId: string | null = null;
@@ -157,7 +146,7 @@ const Bot: React.FC = () => {
           delayMessage(previousQuestion.question);
           return;
         } else {
-          delayMessage("שגיאה: לא נמצא שאלה קודמת תואמת."); // Will not actually happen
+          delayMessage("שגיאה: לא נמצא שאלה קודמת תואמת.");
           return;
         }
       }
@@ -171,43 +160,42 @@ const Bot: React.FC = () => {
         maxWidth: "600px",
         margin: "0 auto",
         padding: "1rem",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "'Roboto', sans-serif", // Friendly font
         direction: "rtl",
         textAlign: "right",
-        border: "1px solid #ddd",
+        border: "1px solid #B3D7FF", // Light blue border
         borderRadius: "10px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
       }}
+
+      
     >
-      <button
-        className="corner-button"
-        onClick={() => navigate("/")}
+         <button
+        onClick={() => window.location.href = 'MyProject.html'}
         style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "20px",
-          padding: "0.75rem 1.5rem",
-          backgroundColor: "#2b4979",
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          padding: "0.5rem 1rem",
+          backgroundColor: "#3B74B5", 
           color: "white",
           border: "none",
-          borderRadius: "8px",
-          fontSize: "1rem",
-          fontWeight: "600",
+          borderRadius: "5px",
           cursor: "pointer",
-          zIndex: "1000",
+          fontSize: "0.8rem", 
         }}
       >
-        חזרה לדף הבית
+        חזרה לעמוד הקודם
       </button>
-      <h2 style={{ textAlign: "center" }}>בוט תמיכה</h2>
+      <h2 style={{ textAlign: "center",fontFamily: "'Assistant', 'Rubik', sans-serif",fontSize: "2.5rem", color: "#3B74B5"}}>בוט תמיכה</h2>
       <div
         style={{
           height: "400px",
           overflowY: "auto",
-          border: "1px solid #ccc",
+          border: "1px solid #B3D7FF", // Light blue border
           borderRadius: "10px",
           padding: "1rem",
-          backgroundColor: "#f9f9f9",
+          backgroundColor: "#E8F4FF", // Light blue background
           direction: "rtl",
         }}
       >
@@ -220,34 +208,27 @@ const Bot: React.FC = () => {
               direction: "rtl",
             }}
           >
-            {msg.sender === "bot" && isOther ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: msg.text }}
-                style={{
-                  display: "inline-block",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "10px",
-                  backgroundColor: "#e1f5fe",
-                  color: "#333",
-                  whiteSpace: "pre-wrap",
-                  textAlign: "right",
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  display: "inline-block",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "10px",
-                  backgroundColor: msg.sender === "bot" ? "#e1f5fe" : "#c8e6c9",
-                  color: "#333",
-                  whiteSpace: "pre-wrap",
-                  textAlign: "right",
-                }}
-              >
-                {msg.text}
-              </div>
-            )}
+            <div
+              style={{
+                display: "inline-block",
+                padding: "0.8rem 1.2rem",
+                borderRadius: "20px",
+                backgroundColor: msg.sender === "bot" ? "#A3C8FF" : "#3B74B5", // Bot and user message colors in blue scale
+                color: "#333",
+                whiteSpace: "pre-wrap",
+                textAlign: "right",
+                maxWidth: "80%",
+                wordBreak: "break-word",
+                marginBottom: "0.5rem",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow for speech bubbles
+                borderTopLeftRadius: msg.sender === "bot" ? "20px" : "0",
+                borderTopRightRadius: msg.sender === "user" ? "20px" : "0",
+                borderBottomLeftRadius: "20px",
+                borderBottomRightRadius: "20px",
+              }}
+            >
+              {msg.text}
+            </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
@@ -263,10 +244,11 @@ const Bot: React.FC = () => {
               width: "100%",
               height: "80px",
               padding: "0.5rem",
-              border: "1px solid #ccc",
+              border: "1px solid #B3D7FF", // Light blue border
               borderRadius: "5px",
               direction: "rtl",
               textAlign: "right",
+              fontFamily: "'Assistant', 'Rubik', sans-serif", // Friendly font
             }}
           />
           <button
@@ -274,7 +256,7 @@ const Bot: React.FC = () => {
             style={{
               marginTop: "0.5rem",
               padding: "0.5rem 1rem",
-              backgroundColor: "#007bff",
+              backgroundColor: "#3B74B5", // Blue button
               color: "white",
               border: "none",
               borderRadius: "5px",
@@ -289,7 +271,7 @@ const Bot: React.FC = () => {
               marginTop: "0.5rem",
               marginLeft: "0.5rem",
               padding: "0.5rem 1rem",
-              backgroundColor: "#ff6b6b",
+              backgroundColor: "#FF6B6B", // Red button
               color: "white",
               border: "none",
               borderRadius: "5px",
@@ -310,14 +292,14 @@ const Bot: React.FC = () => {
               style={{
                 display: "block",
                 width: "100%",
-                margin: "0.5rem 0",
-                padding: "0.5rem",
-                border: "1px solid #ccc",
+                padding: "1rem",
+                marginBottom: "0.5rem",
+                backgroundColor: "#A3C8FF", // Option button
+                color: "#3B74B5", // Text color
+                border: "1px solid #B3D7FF", // Border in light blue
                 borderRadius: "5px",
-                backgroundColor: "#fff",
-                textAlign: "right",
                 cursor: "pointer",
-                direction: "rtl",
+                fontFamily: "'Assistant', 'Rubik', sans-serif", // Friendly font
               }}
             >
               {option.text}
@@ -326,34 +308,24 @@ const Bot: React.FC = () => {
         </div>
       )}
 
-      {history.length > 0 && !isOther && (
-        <button
-          onClick={handleBack}
-          style={{
-            marginTop: "1rem",
-            padding: "0.5rem 1rem",
-            backgroundColor: "#ffc107",
-            color: "#333",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          חזור לשאלה הקודמת
-        </button>
-      )}
+      <button
+        onClick={handleBack}
+        style={{
+          backgroundColor: "#FFD700", // Yellow "Back" button
+          color: "white",
+          padding: "0.7rem 1.2rem",
+          border: "none",
+          borderRadius: "10px",
+          cursor: "pointer",
+          marginTop: "1rem",
+        }}
+      >
+        חזור
+      </button>
 
       {isLoading && (
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: "1rem",
-            fontStyle: "italic",
-            color: "#888",
-            direction: "rtl",
-          }}
-        >
-          טוען...
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <span>טעינה...</span>
         </div>
       )}
     </div>
