@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק זיכרון</title>
+    <link rel="stylesheet" href="memoryGame.css">
+</head>
+<body>
+    <header>
+        <h1>משחק זיכרון</h1>
+    </header>
+    <main>
+        <div class="card-container">
+            <div class="card" data-id="1" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                           לעולם אל תשתף סיסמאות עם אחרים
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-id="2" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            בדוק תמיד אם כתובת האתר מתחילה ב https
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-id="1" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            שיתוף סיסמאות מסכן את הפרטיות שלך
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="6" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            מורים, יועצים, או קו סיוע יכולים לעזור
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="6" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            זכור שתמיד אפשר לפנות לעזרה
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="5" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            שיתוף פרטים אישיים עלול לסכן את הביטחון שלך
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="5" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            אל תשתף פרטים אישיים באינטרנט
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="4" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            סיסמה חזקה כוללת אותיות, מספרים וסימנים
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="4" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            השתמש בסיסמאות חזקות ומורכבות
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="3" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            קישורים לא מוכרים עלולים להכיל וירוסים
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="3" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            אל תלחץ על קישורים מאנשים שאינך מכיר
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" data-id="2" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p>?</p>
+                    </div>
+                    <div class="card-back">
+                        <p>
+                            אם תחילית האתר היא https  זה מראה שהאתר מאובטח
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    <footer>
+        <a href="MyProject.html">חזרה לעמוד קודם</a>
+    </footer>
+    </main>
+    <script>
+        function flipCard(card) {
+            card.querySelector('.card-inner').classList.toggle('flipped');
+        
+        }
+        src="memoryGame.js";
+    </script>
+</body>
+</html>
