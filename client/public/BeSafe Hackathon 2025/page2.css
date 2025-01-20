@@ -32,13 +32,11 @@ header {
     background-color: #eff3fa; /* הצבע של התיבה */
     border: 2px solid #4074b8; /* הגבול של התיבה */
     border-radius: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     font-family: 'segoe UI';
     flex: 1 1 calc(30% - 20px); /* כל תיבה תתפוס אחוז מסויים מרוחב השורה */
     box-sizing: border-box; 
-    max-width: 350px; /* הרוחב שהגדרתי לתיבה*/
     transition: transform 0.3s, background-color 0.3s;
 }
 
@@ -68,12 +66,16 @@ button:hover {
     position: absolute; /* כפתור קבוע */
     top: 10px; /* מרחק מראש העמוד */
     right: 10px; /* מרחק מצד ימין */
-    background-color: #4074b8; /* צבע רקע */
+    background-color: #dc3545; /* צבע רקע */
     color: white; /* צבע טקסט */
     border: none; /* בלי גבול */
     padding: 10px 15px; /* ריווח פנימי */
-    border-radius: 5px; /* עיגול פינות */
+    border-radius: 20px; /* עיגול פינות */
     font-size: 16px; /* גודל טקסט */
     cursor: pointer; /* סמן של כפתור */
     z-index: 1000; /* כדי להיות מעל כל האלמנטים */
 }
+
+.back-button:hover {
+    background-color: #ce182a; /* צבע רקע כשיש ריחוף */
+  }

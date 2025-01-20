@@ -19,7 +19,7 @@ header {
     padding: 10px 0; /* padding מלמעלה ומלמטה */
     text-align: center;
     font-weight: bold;
-    line-height: 50px;
+    line-height: 40px;
 
 }
 
@@ -36,7 +36,7 @@ header {
 .box {
     background-color: #eff3fa;
     border: 2px solid #4074b8;
-    padding: 85px;
+    padding: 50px;
     border-radius: 1.5rem;
     text-align: center;
     font-size: 25px;
@@ -59,15 +59,15 @@ header {
     top: 10px; /* מרחק מלמעלה */
     right: 10px; /* מרחק משמאל */
     padding: 10px 20px; /* ריפוד פנימי של הכפתור */
-    background-color: #4074b8; /* צבע רקע */
+    background-color: #dc3545; /* צבע רקע */
     color: white; /* צבע טקסט */
     border: none; /* בלי גבול */
     font-family: 'Segoe UI';
-    border-radius: 5px; /* קצוות מעוגלים */
+    border-radius: 20px; /* קצוות מעוגלים */
     font-size: 16px; /* גודל פונט */
     cursor: pointer; /* הופך את הסמן לאצבע */
   }
   
   .back-button:hover {
-    background-color: #a0b7df; /* צבע רקע כשיש ריחוף */
+    background-color: #ce182a; /* צבע רקע כשיש ריחוף */
   }
