@@ -8,6 +8,7 @@
 </head>
 <body>
     <header>
+        <button class="back-button" onclick="goBack()">חזרה לעמוד הקודם</button>
         <h1>?איך לדבר על כך עם ההורים</h1>
     </header>
     <main>
@@ -106,14 +107,16 @@
                 </div>
             </div>
         </div>
-    <footer>
-        <a href="MyProject.html">חזרה לעמוד קודם</a>
-    </footer>
     </main>
     <script>
         function flipCard(card) {
             card.querySelector('.card-inner').classList.toggle('flipped');
         }
     </script>
+    <script>
+        function goBack() {
+          window.location.href = 'MyProject.html';  
+        }
+      </script>
 </body>
 </html>
