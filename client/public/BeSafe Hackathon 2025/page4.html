@@ -3,34 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>משחק האם אתם חכמים ברשת</title>
-    <link rel="stylesheet" href="page4.css">
+    <title>סיירת החרם</title>
+    <link rel="stylesheet" href="page1.css">
 </head>
 <body>
-    <div id="start-screen" class="container">
-        <h1>בואו לבדוק האם אתם חכמים ברשת</h1>
-        <button onclick="startGame()">התחל משחק</button>
+    <header>
+        <h1>סיירת החרם - מידע וקישורים</h1>
+        <p>כאן תוכלו למצוא מידע על סיירת החרם וקישורים למידע נוסף להתמודדות עם חרמות ובריונות ברשת ומחוצה לה</p>
+    </header>
+    <main class="charities-list">
+
+        <div class="charity box">
+            <h2>אופק ראשון - מייסדת סיירת החרם</h2>
+            <p>
+                אופק ראשון היא יזמית חברתית שהקימה את סיירת החרם במטרה להילחם בבריונות ובחרמות בקרב בני נוער. היא מעבירה הרצאות וסדנאות בנושא ומפעילה מערך מתנדבים לסיוע לנפגעים.
+            </p>
+            <a href="https://he.wikipedia.org/wiki/%D7%90%D7%95%D7%A4%D7%A7_%D7%A8%D7%90%D7%A9%D7%95%D7%9F" target="_blank">
+                <button>למידע נוסף על אופק</button>
+            </a>
+        </div>
+
+        <div class="charity box">
+            <h2>כתבה על סיירת החרם</h2>
+            <p>
+                כתבה בחדשות 13 המספקת רקע על פעילות הסיירת, המטרות וההשפעה שלה על הקהילה.
+            </p>
+            <a href="https://13tv.co.il/item/news/domestic/education-society/utbdu-903498628/" target="_blank"> 
+                <button>לקריאת הכתבה</button>
+             </a>
+        </div>
+
+        <div class="charity box">
+            <h2>סיירת החרם - הקהילה</h2>
+            <p>
+                קבוצת הפייסבוק של סיירת החרם, בהובלת אופק ראשון, מציעה תמיכה, עדכונים שוטפים והשראה למאבק בתופעת החרמות, תוך יצירת קהילה מחבקת שמקדמת סביבה מכילה ובטוחה.
+            </p>
+            <a href="https://www.facebook.com/groups/2404002123083552/" target="_blank">    
+                <button>למעבר לקבוצת הקהילה בפייסבוק</button>
+            </a>
+        </div>
+
+        <div class="charity box">
+            <h2>פרופיל האינסטגרם של אופק ראשון</h2>
+            <p>
+                בפרופיל האינסטגרם של אופק ניתן למצוא מידע על הרצאות, טיפים להתמודדות עם חרמות ותיעוד של פעילויות הסיירת.
+            </p>
+            <a href="https://www.instagram.com/ofek_rishon/?hl=en" target="_blank">    
+                <button>למעבר לפרופיל האינסטגרם</button>
+             </a>
+        </div>
+
+        <div class="charity box">
+            <h2>אתר מצמיחים</h2>
+            <p>
+                באתר של עמותת מצמיחים תוכלו למצוא מידע על תופעת החרמות והדרכים להתמודד איתה, 
+                כלים חינוכיים לסיוע לנפגעים והדרכות להורים, מורים ותלמידים.
+            </p>
+            <a href="https://matzmichim.org.il/boycott/" target="_blank">
+                <button>למעבר לאתר</button>
+            </a>
+        </div>
+
+
+        <div class="charity box">
+            <h2>תופעת החרמות - עמוד ממשלתי</h2>
+            <p>
+                בעמוד הממשלתי תוכלו למצוא מידע על תופעת החרמות, דרכי התמודדות, 
+                וכלים מעשיים להורים, אנשי חינוך ותלמידים למניעת חרמות ולתמיכה בנפגעים.
+            </p>
+            <a href="https://www.gov.il/he/pages/boycott_phenomenon" target="_blank">
+                <button>למעבר לעמוד</button>
+            </a>
+        </div>
         
-        <div class="game-container">
-            <img class="game-image" src="https://img.freepik.com/premium-photo/ilustration-art-retro-style-spy-theme-funny-secret-agent-cartoon-character-creative-cute-anime_1020495-17714.jpg">
-        </div>
-    </div>
-    
-    <div id="question-container" class="container hidden">
-        <h1 id="question"></h1>
-        <div id="options-container"></div>
-    </div>
-
-    <div id="result-container" class="container hidden">
-        <h1 id="result"></h1>
-        <button onclick="restartQuiz()">שחק שוב</button>
-
-        <!-- כאן גם התמונה בסוף -->
-        <div class="game-container">
-            <img class="game-image" src="https://img.freepik.com/premium-photo/ilustration-art-retro-style-spy-theme-funny-secret-agent-cartoon-character-creative-cute-anime_1020495-17714.jpg">
-        </div>
-    </div>
-    
-    <script src="page4.js"></script>
+    </main>
 </body>
 </html>
