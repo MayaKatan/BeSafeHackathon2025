@@ -8,6 +8,7 @@
 </head>
 <body>
     <header>
+        <button class="back-button" onclick="goBack()">חזרה לעמוד הקודם</button>
         <h1>סיירת החרם - מידע וקישורים</h1>
         <p>כאן תוכלו למצוא מידע על סיירת החרם וקישורים למידע נוסף להתמודדות עם חרמות ובריונות ברשת ומחוצה לה</p>
     </header>
@@ -77,5 +78,15 @@
         </div>
         
     </main>
+    <script>
+        // פונקציה לחזרה לעמוד הקודם
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/'; // הפניה לעמוד ראשי אם אין היסטוריה
+            }
+        }
+    </script>
 </body>
 </html>

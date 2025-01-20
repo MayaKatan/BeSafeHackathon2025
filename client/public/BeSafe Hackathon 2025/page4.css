@@ -92,3 +92,18 @@ button:focus {
     display: block;
     margin: 20px auto 0 auto;
 }
+
+.back-button {
+    position: absolute; /* מיקום יחסי ל-header */
+    top: 10px; /* מרחק מראש העמוד */
+    right: 10px; /* מרחק מצד ימין */
+    background-color: #4074b8; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    border: none; /* בלי גבול */
+    padding: 10px 15px; /* ריווח פנימי */
+    border-radius: 5px; /* עיגול פינות */
+    font-size: 16px; /* גודל טקסט */
+    cursor: pointer; /* סמן של כפתור */
+    z-index: 1000; /* כדי להיות מעל כל האלמנטים */
+}
+
