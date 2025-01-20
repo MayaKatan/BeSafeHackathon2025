@@ -7,7 +7,7 @@ import Login from './pages/login/page.tsx';
 import Signup from './pages/signup/page.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import styles from './styles/App.module.css';
-import projectLogo from './assets/project-logo.png';
+import projectLogo from './assets/AppLogo.jpeg';
 import { motion } from 'framer-motion';
 import HomePage from './pages/homePage/homePage';
 
