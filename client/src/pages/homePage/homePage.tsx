@@ -104,7 +104,7 @@ function App() {
               <div className={styles.featureLink}>
                 <a
                   href="/BeSafe Hackathon 2025/MyProject.html"
-                  target="_blank"
+                  // target="_blank"
                   rel="noopener noreferrer"
                 >
                   <span>התחילו ללמוד</span>
