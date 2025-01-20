@@ -57,7 +57,7 @@ function AppContent() {
               <h1 className={styles.appName}>SafeSpace</h1>
             ) : (
               <div className={styles.navLinks}>
-                <Link to="/chatbot" className={styles.appLink}>Chatbot</Link>
+                <Link to="/homePage" className={styles.appLink}>חזרה לעמוד הראשי</Link>
                 <button
                   onClick={async () => {
                     await supabase.auth.signOut();

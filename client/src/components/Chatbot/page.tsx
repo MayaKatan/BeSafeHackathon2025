@@ -3,6 +3,7 @@ import { flowData } from "./flowData";
 import axios from "axios";
 import './Bot.css';
 
+
 const Bot: React.FC = () => {
   const [currentId, setCurrentId] = useState<string | null>("1");
   const [history, setHistory] = useState<string[]>([]);

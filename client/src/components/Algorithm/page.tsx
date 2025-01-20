@@ -238,9 +238,6 @@ const TextInputWithDangerScore: React.FC = () => {
 
   return (
     <div className="toxicity-checker">
-      <button className="corner-button" onClick={() => navigate("/")}>
-        Back to Home Page
-      </button>
       <h2>Internet Safety Checker</h2>
       <div className="center-container">
         <textarea
