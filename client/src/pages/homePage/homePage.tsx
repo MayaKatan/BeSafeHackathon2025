@@ -28,6 +28,18 @@ function App() {
     <div className={styles.app}>
       <section className={styles.hero}>
         <div className={styles.container}>
+          <div className={styles.linkContainer}>
+            <a
+              href="/BeSafe Hackathon 2025/parentPage.html"
+              className={styles.parentTips}
+            >
+              Parent Tips
+            </a>
+
+            <a href="/arcade/arcade.html" className={styles.arcade}>
+              Arcade
+            </a>
+          </div>
           <button
             onClick={async () => {
               await supabase.auth.signOut();
@@ -39,7 +51,7 @@ function App() {
 
           <div>
             <a
-              href="/BeSafe Hackathon 2025/page5.html"
+              href="/BeSafe Hackathon 2025/page6.html"
               className={styles.sosLink}
             >
               <AlertCircle />
@@ -70,6 +82,21 @@ function App() {
               <p>ניתוח מתקדם לזיהוי וסימון תוכן מסוכן בזמן אמת.</p>
               <div className={styles.featureLink}>
                 <Link to="/algorithm">
+                  <span>נסו עכשיו</span>
+                </Link>
+
+                <ChevronRight />
+              </div>
+            </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIconBlue}>
+                <Shield />
+              </div>
+              <h3>אלגוריתם לניתוח תמונות</h3>
+              <p>ניתוח מתקדם לזיהוי וסימון תוכן מסוכן בתמונות.</p>
+              <div className={styles.featureLink}>
+                <Link to="/image-analyser">
                   <span>נסו עכשיו</span>
                 </Link>
 

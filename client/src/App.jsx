@@ -58,8 +58,7 @@ function AppContent() {
               <h1 className={styles.appName}>SafeSpace</h1>
             ) : (
               <div className={styles.navLinks}>
-                <Link to="/chatbot" className={styles.appLink}>Chatbot</Link>
-                <Link to="/image-analyser" className={styles.appLink}>Image Analyser</Link>
+                <Link to="/" className={styles.appLink}>Back to HomePage</Link>
 
                 <button
                   onClick={async () => {
